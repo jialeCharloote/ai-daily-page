@@ -1,745 +1,631 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="每日 AI 简报 — 官方动态、独立新闻、YouTube 与 X.com 热议，中英双语，北京时间。">
-<link rel="canonical" href="https://jialecharloote.github.io/ai-daily-page/">
-<meta property="og:title" content="AI Daily — 每日 AI 简报">
-<meta property="og:description" content="每日 AI 简报 — 官方动态、独立新闻、YouTube 与 X.com 热议，中英双语，北京时间。">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://jialecharloote.github.io/ai-daily-page/">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>">
-<title>AI Daily — 每日 AI 简报</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — August 6, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
 </head>
 <body>
 
-
-<style>
-  :root {
-    --paper:      #f5f7f4;
-    --card:       #ffffff;
-    --ink:        #14171c;
-    --ink-soft:   #59616b;
-    --ink-faint:  #8a929c;
-    --rule:       #dde1da;
-    --accent:     #1a5fb4;
-    --accent-dim: #e8eff8;
-    --official:   #7d4a1c;
-    --official-bg:#f6ece0;
-    --community:  #2a6b52;
-    --community-bg:#e6f1ea;
-
-    --serif: Georgia, 'Times New Roman', 'Songti SC', 'Source Han Serif SC', serif;
-    --sans:  -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-    --mono:  ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace;
-
-    --measure: 64ch;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --paper:      #0f1216;
-      --card:       #161a20;
-      --ink:        #e7eae5;
-      --ink-soft:   #9aa3ad;
-      --ink-faint:  #6b737d;
-      --rule:       #262c33;
-      --accent:     #7fb0ee;
-      --accent-dim: #17273b;
-      --official:   #d6a06a;
-      --official-bg:#2a2018;
-      --community:  #74c39c;
-      --community-bg:#16261e;
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --paper:      #0f1216;
-    --card:       #161a20;
-    --ink:        #e7eae5;
-    --ink-soft:   #9aa3ad;
-    --ink-faint:  #6b737d;
-    --rule:       #262c33;
-    --accent:     #7fb0ee;
-    --accent-dim: #17273b;
-    --official:   #d6a06a;
-    --official-bg:#2a2018;
-    --community:  #74c39c;
-    --community-bg:#16261e;
-  }
-
-  :root[data-theme="light"] {
-    --paper:      #f5f7f4;
-    --card:       #ffffff;
-    --ink:        #14171c;
-    --ink-soft:   #59616b;
-    --ink-faint:  #8a929c;
-    --rule:       #dde1da;
-    --accent:     #1a5fb4;
-    --accent-dim: #e8eff8;
-    --official:   #7d4a1c;
-    --official-bg:#f6ece0;
-    --community:  #2a6b52;
-    --community-bg:#e6f1ea;
-  }
-
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--sans);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .shell { max-width: 780px; margin: 0 auto; padding: 0 24px 80px; }
-
-  /* ── Masthead: the dispatch header ── */
-  .masthead {
-    padding: 40px 0 20px;
-    border-bottom: 2px solid var(--ink);
-  }
-  .kicker {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 0 0 10px;
-  }
-  .wordmark {
-    font-family: var(--serif);
-    font-size: clamp(38px, 8vw, 56px);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
-    margin: 0;
-    text-wrap: balance;
-  }
-  .window {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin: 16px 0 0;
-    line-height: 1.7;
-  }
-  .window b { color: var(--ink); font-weight: 600; }
-
-  /* ── Counts strip: what's in this issue ── */
-  .counts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 8px;
-  }
-  .count {
-    flex: 1 1 0;
-    min-width: 76px;
-    padding: 14px 12px 14px 0;
-  }
-  .count-n {
-    font-family: var(--mono);
-    font-size: 24px;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-    display: block;
-  }
-  .count-l {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-top: 6px;
-    display: block;
-  }
-
-  /* ── Controls ── */
-  .controls {
-    display: flex;
-    gap: 8px;
-    padding: 16px 0 0;
-    position: sticky;
-    top: 0;
-    background: var(--paper);
-    z-index: 10;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--rule);
-  }
-  .lang {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 7px 14px;
-    border: 1px solid var(--rule);
-    background: transparent;
-    color: var(--ink-soft);
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background .12s, color .12s, border-color .12s;
-  }
-  .lang:hover { border-color: var(--accent); color: var(--accent); }
-  .lang[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
-  .lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  /* ── Sections ── */
-  .section { padding: 36px 0 8px; }
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 4px;
-  }
-  .section-title {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin: 0;
-    color: var(--ink);
-  }
-  .section-rule { flex: 1; height: 1px; background: var(--rule); }
-  .section-n {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-faint);
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* ── Items ── */
-  .item {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .item:last-child { border-bottom: none; }
-  .item-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .tag {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 3px 7px;
-    border-radius: 2px;
-    background: var(--accent-dim);
-    color: var(--accent);
-    white-space: nowrap;
-  }
-  .tag.official { background: var(--official-bg); color: var(--official); }
-  .tag.community { background: var(--community-bg); color: var(--community); }
-  .stamp {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-faint);
-    font-variant-numeric: tabular-nums;
-  }
-  .item-title {
-    font-family: var(--serif);
-    font-size: 21px;
-    line-height: 1.28;
-    font-weight: 400;
-    margin: 0 0 8px;
-    text-wrap: balance;
-  }
-  .item-title a { color: var(--ink); text-decoration: none; }
-  .item-title a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-  .item-title a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .item-sum {
-    margin: 0;
-    color: var(--ink-soft);
-    font-size: 15px;
-    max-width: var(--measure);
-  }
-
-  /* ── X posts: quoted voice ── */
-  .post {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--rule);
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 20px;
-  }
-  .post:last-child { border-bottom: none; }
-  .post-who {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--ink);
-    font-weight: 500;
-  }
-  .post-stats {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-faint);
-    font-variant-numeric: tabular-nums;
-    margin-top: 3px;
-  }
-  .post-body {
-    margin: 0;
-    font-size: 15px;
-    max-width: var(--measure);
-  }
-  .post-link {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    text-decoration: none;
-    margin-top: 8px;
-    display: inline-block;
-  }
-  .post-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .post-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  @media (max-width: 560px) {
-    .post { grid-template-columns: 1fr; gap: 8px; }
-    .count { min-width: 60px; }
-  }
-
-  /* ── Notes + footer ── */
-  .note {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    line-height: 1.7;
-    color: var(--ink-faint);
-    background: var(--card);
-    border-left: 2px solid var(--rule);
-    padding: 12px 14px;
-    margin: 20px 0 0;
-    max-width: var(--measure);
-  }
-  .note code {
-    background: var(--accent-dim);
-    color: var(--accent);
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
-
-  .colophon {
-    margin-top: 56px;
-    padding-top: 20px;
-    border-top: 2px solid var(--ink);
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-faint);
-    line-height: 1.8;
-  }
-  .colophon b { color: var(--ink-soft); font-weight: 500; }
-  .archive-link { color: var(--accent); text-decoration: none; }
-  .archive-link:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .archive-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  [hidden] { display: none !important; }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
-  }
-</style>
-
-<div class="shell">
-
+<div class="site-header">
   <header class="masthead">
-    <p class="kicker">Daily Dispatch · 北京时间 UTC+8</p>
-    <h1 class="wordmark">AI Daily</h1>
-    <p class="window">
-      <b>2026年8月6日</b> · 星期四<br>
-      收录窗口 &nbsp;<b>8月5日 00:00 — 8月6日 02:22</b>
-    </p>
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">August 6, 2026<br>Beijing Time · UTC+8</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
   </header>
 
-  <div class="counts">
-    <div class="count"><span class="count-n">2</span><span class="count-l">官方 / Official</span></div>
-    <div class="count"><span class="count-n">1</span><span class="count-l">新闻 / News</span></div>
-    <div class="count"><span class="count-n">5</span><span class="count-l">视频 / Video</span></div>
-    <div class="count"><span class="count-n">8</span><span class="count-l">X.com</span></div>
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+        <a class="sec-toggle" id="sec-x" href="#sec-anchor-x">X.com Posts</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
   </div>
-
-  <div class="controls">
-    <button class="lang" id="btn-cn" aria-pressed="true" onclick="setLang('cn')">中文</button>
-    <button class="lang" id="btn-en" aria-pressed="false" onclick="setLang('en')">English</button>
-  </div>
-
-  <!-- ══════════════ 中文 ══════════════ -->
-  <main id="panel-cn">
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">官方动态</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">2</span>
-      </div>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag official">Claude Blog</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://claude.com/blog/claude-enterprise-inference-hooks">推理钩子：面向 Claude Enterprise 的内联数据防泄漏</a></h3>
-        <p class="item-sum">合规团队可在每一次 prompt 和工具调用返回结果送达 Claude 之前进行检查并强制执行策略，覆盖 Claude Enterprise 的聊天、Claude Code、Claude Cowork 等多个入口。相当于把数据防泄漏直接做进推理链路。</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag official">OpenAI</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models">涉及 OpenAI 模型的第三方网络安全评估</a></h3>
-        <p class="item-sum">OpenAI 说明了近期第三方网络安全评估中出现的问题，并公布了强化模型测试与评估流程的新保障措施。</p>
-      </article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">独立新闻</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">1</span>
-      </div>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">Every.to</span>
-          <span class="stamp">8月6日</span>
-        </div>
-        <h3 class="item-title"><a href="https://every.to/context-window/mini-vibe-check-chatgpt-voice-mode">小型体验测评：ChatGPT 语音模式</a></h3>
-        <p class="item-sum">Every 团队正全面押注语音方向，这是他们对 ChatGPT 语音模式的简短上手评测，并预告 8 月 7 日面向付费订阅者的线上活动。</p>
-      </article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">YouTube 精选</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">5</span>
-      </div>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">Lenny's Podcast</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/shorts/l32qe0MJGak">人类会不断发明新理由，来论证自己必须留在 agent 的决策环路里</a></h3>
-        <p class="item-sum">短视频，讨论随着 agent 能力不断提升，人类为何总能找到新的理由把自己保留在审批环节中。</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">Lenny's Podcast</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/shorts/2aw5xDw-jtY">团队真的需要产品经理吗？</a></h3>
-        <p class="item-sum">短视频，重新审视产品经理这一角色在团队中的必要性。</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">a16z</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/watch?v=Iy1W8vOxv5o">海洋公司 Ulysses｜a16z 美国动能</a></h3>
-        <p class="item-sum">a16z「美国动能」系列，介绍海洋科技创业公司 Ulysses。</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">a16z</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/watch?v=uFt-tkagUUI">未来属于金属：Mariana Minerals｜a16z 美国动能</a></h3>
-        <p class="item-sum">a16z「美国动能」系列，介绍矿业公司 Mariana Minerals 及关键金属供应议题。</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">a16z</span>
-          <span class="stamp">8月5日</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/watch?v=-9Vh7tsgM7Y">核能复兴：Radiant｜a16z 美国动能</a></h3>
-        <p class="item-sum">a16z「美国动能」系列，介绍核能创业公司 Radiant。</p>
-      </article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">X.com 热议</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">8 · 按互动量</span>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@swyx</div><div class="post-stats">♥ 7,850 · 8月6日</div></div>
-        <div>
-          <p class="post-body">宣布创办 Discovery Loop（@DiscoLoopAI），一家公益公司，联合创始人包括 Sanjay Ghemawat、Oriol Vinyals、Quoc Le，目标是自动化机器学习、科学与工程研究以加速发现。</p>
-          <a class="post-link" href="https://x.com/swyx/status/2085034604172603724">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@garrytan</div><div class="post-stats">♥ 2,698 · 8月5日</div></div>
-        <div>
-          <p class="post-body">「做 agent 想要的东西」——套用 YC 经典格言的一句话版本。</p>
-          <a class="post-link" href="https://x.com/garrytan/status/2084977947375767647">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@rauchg</div><div class="post-stats">♥ 1,303 · 8月5日</div></div>
-        <div>
-          <p class="post-body">人类历史一直假定智能是稀缺资源，如今任何人都能像用自来水一样随手调用无穷智力，这一转变之深刻，连我们自己的大脑都难以理解。</p>
-          <a class="post-link" href="https://x.com/rauchg/status/2085021395797614803">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@swyx</div><div class="post-stats">♥ 641 · 8月5日</div></div>
-        <div>
-          <p class="post-body">Airtable 收购案的关键补充：他们在交易前把 AI 业务 Hyperagent 分拆了出来，公司得以存续并可能带走部分现金，甩掉旧业务专注 AI，是个相当不错的结局。</p>
-          <a class="post-link" href="https://x.com/swyx/status/2084687434886135915">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@garrytan</div><div class="post-stats">♥ 571 · 8月5日</div></div>
-        <div>
-          <p class="post-body">介绍 Omanta（YC S26）：面向每位患者的个性化研究实验室，整合完整病历、个人基因组与最新科研证据，定位疾病的分子驱动因素并匹配现有及在研疗法。</p>
-          <a class="post-link" href="https://x.com/garrytan/status/2084696480829628826">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@joshwoodward</div><div class="post-stats">♥ 473 · 8月5日</div></div>
-        <div>
-          <p class="post-body">Notebook 为思考而非切换模式而设计：别家不断增加模式，Notebook 把一切收进统一的提示栏。Ultra 和 Pro 订阅者已可使用，后续全量推送。</p>
-          <a class="post-link" href="https://x.com/joshwoodward/status/2084746170576892342">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@amasad</div><div class="post-stats">♥ 378 · 8月6日</div></div>
-        <div>
-          <p class="post-body">宣布 SPC Fund IV：5.75 亿美元，帮助创始人找到毕生事业。十年陪伴创始人走过 -1 到 0 的阶段，SPC 管理规模达 20 亿美元，社区汇聚 1200 位技术人才。</p>
-          <a class="post-link" href="https://x.com/amasad/status/2085034980866998632">查看原帖 →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@garrytan</div><div class="post-stats">♥ 368 · 8月5日</div></div>
-        <div>
-          <p class="post-body">公司是一种有计划的社会秩序，但建立在客户、市场、招聘、现金、时间与技术约束的压力之下；创始人必须制造信念，但自我会把信念变成盲目。</p>
-          <a class="post-link" href="https://x.com/garrytan/status/2084992789780275628">查看原帖 →</a>
-        </div>
-      </div>
-
-      <p class="note">抓取共返回 29 条，上列为 AI/科技相关的前 8 条。抓取脚本的关键词过滤原本使用朴素子串匹配，<code>'ai'</code> 会误命中 <code>air</code>、<code>Aisha</code> 等词；该问题已修复并提交至上游。</p>
-    </section>
-  </main>
-
-  <!-- ══════════════ English ══════════════ -->
-  <main id="panel-en" hidden>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">Official Updates</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">2</span>
-      </div>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag official">Claude Blog</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://claude.com/blog/claude-enterprise-inference-hooks">Inference hooks: inline data loss prevention for Claude Enterprise</a></h3>
-        <p class="item-sum">Compliance teams can inspect and enforce policy on every prompt and tool call response before it reaches Claude, across Claude Enterprise surfaces including chat, Claude Code, and Claude Cowork. Effectively, DLP built directly into the inference path.</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag official">OpenAI</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models">Third-party cyber evaluations involving OpenAI models</a></h3>
-        <p class="item-sum">OpenAI explains recent third-party cybersecurity evaluation incidents and outlines new safeguards to strengthen model testing and evaluation.</p>
-      </article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">Independent News</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">1</span>
-      </div>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">Every.to</span>
-          <span class="stamp">Aug 6</span>
-        </div>
-        <h3 class="item-title"><a href="https://every.to/context-window/mini-vibe-check-chatgpt-voice-mode">Mini-Vibe Check: ChatGPT Voice Mode</a></h3>
-        <p class="item-sum">A short hands-on take on ChatGPT Voice Mode from the Every team, who are going all in on voice, plus a heads-up on their Aug 7 camp for paid subscribers.</p>
-      </article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">YouTube Picks</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">5</span>
-      </div>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">Lenny's Podcast</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/shorts/l32qe0MJGak">Humans will keep inventing new reasons why we must stay in the loop with agents</a></h3>
-        <p class="item-sum">A short on why people keep finding fresh justifications to keep a human approval step in place as agents grow more capable.</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">Lenny's Podcast</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/shorts/2aw5xDw-jtY">Do teams actually need PMs?</a></h3>
-        <p class="item-sum">A short revisiting whether the product manager role is actually necessary on a team.</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">a16z</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/watch?v=Iy1W8vOxv5o">The Ocean Company — Ulysses | a16z American Dynamism</a></h3>
-        <p class="item-sum">An a16z American Dynamism profile of ocean technology startup Ulysses.</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">a16z</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/watch?v=uFt-tkagUUI">The Future is Metal — Mariana Minerals | a16z American Dynamism</a></h3>
-        <p class="item-sum">An a16z American Dynamism profile of Mariana Minerals and critical metals supply.</p>
-      </article>
-
-      <article class="item">
-        <div class="item-meta">
-          <span class="tag">a16z</span>
-          <span class="stamp">Aug 5</span>
-        </div>
-        <h3 class="item-title"><a href="https://www.youtube.com/watch?v=-9Vh7tsgM7Y">The Nuclear Renaissance — Radiant | a16z American Dynamism</a></h3>
-        <p class="item-sum">An a16z American Dynamism profile of nuclear startup Radiant.</p>
-      </article>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">X.com Top Posts</h2>
-        <span class="section-rule"></span>
-        <span class="section-n">8 · by engagement</span>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@swyx</div><div class="post-stats">♥ 7,850 · Aug 6</div></div>
-        <div>
-          <p class="post-body">Announcing Discovery Loop! Along with my longtime friends and collaborators @Sanjay_Ghemawat, @OriolVinyalsML and @quocleix, we are founding Discovery Loop (@DiscoLoopAI), a Public Benefit Corporation whose mission is to automate machine learning, science, and engineering to accelerate discoveries.</p>
-          <a class="post-link" href="https://x.com/swyx/status/2085034604172603724">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@garrytan</div><div class="post-stats">♥ 2,698 · Aug 5</div></div>
-        <div>
-          <p class="post-body">Make something agents want</p>
-          <a class="post-link" href="https://x.com/garrytan/status/2084977947375767647">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@rauchg</div><div class="post-stats">♥ 1,303 · Aug 5</div></div>
-        <div>
-          <p class="post-body">We spent our entire lives, and human history, under the assumption intelligence was a scarce resource. Now, everyone can summon an inexhaustible IQ machine like it's tap water. And incidentally, the change is so profound our own brains can barely comprehend it.</p>
-          <a class="post-link" href="https://x.com/rauchg/status/2085021395797614803">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@swyx</div><div class="post-stats">♥ 641 · Aug 5</div></div>
-        <div>
-          <p class="post-body">Super relevant update on the Airtable acquisition! They spun out their AI business Hyperagent prior to the acquisition. So the company lives on, and likely some cash with it. Seems like a fantastic outcome — shed the old business and focus on AI.</p>
-          <a class="post-link" href="https://x.com/swyx/status/2084687434886135915">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@garrytan</div><div class="post-stats">♥ 571 · Aug 5</div></div>
-        <div>
-          <p class="post-body">Introducing Omanta (YC S26), the personalized research lab for each patient. Omanta integrates a patient's full medical record, personal genomics, and the latest scientific evidence to understand the molecular drivers of their disease.</p>
-          <a class="post-link" href="https://x.com/garrytan/status/2084696480829628826">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@joshwoodward</div><div class="post-stats">♥ 473 · Aug 5</div></div>
-        <div>
-          <p class="post-body">Notebook is built for thinking, not toggling. While others add more modes, Notebook keeps everything in a single, unified prompt bar and just does the things you want. Ultra and Pro subscribers can jump in now.</p>
-          <a class="post-link" href="https://x.com/joshwoodward/status/2084746170576892342">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@amasad</div><div class="post-stats">♥ 378 · Aug 6</div></div>
-        <div>
-          <p class="post-body">Today we're announcing SPC Fund IV: $575M to help founders find their life's work. A decade of guiding founders through -1 to 0 brings @SPC to $2B in AUM and, more importantly, a 1200 member community of the world's most talented technologists.</p>
-          <a class="post-link" href="https://x.com/amasad/status/2085034980866998632">View post →</a>
-        </div>
-      </div>
-
-      <div class="post">
-        <div><div class="post-who">@garrytan</div><div class="post-stats">♥ 368 · Aug 5</div></div>
-        <div>
-          <p class="post-body">A company is a planned social order, but one built under pressure from customers, markets, hiring, cash, time, and technical constraint. The founder must generate belief, but ego turns belief into blindness.</p>
-          <a class="post-link" href="https://x.com/garrytan/status/2084992789780275628">View post →</a>
-        </div>
-      </div>
-
-      <p class="note">The scraper returned 29 posts; the 8 above are the AI/tech-relevant ones. Its keyword filter originally used naive substring matching, so <code>'ai'</code> matched words like <code>air</code> and <code>Aisha</code> — fixed and submitted upstream.</p>
-    </section>
-  </main>
-
-  <footer class="colophon">
-    <b>AI Daily</b> — 每日抓取 Anthropic / OpenAI 官方博客、独立媒体、YouTube AI 频道与 X.com AI 账号，输出中英双语摘要。<br>
-    Sources fetched daily from official blogs, independent outlets, YouTube AI channels, and X.com. Times are Beijing (UTC+8).<br>
-    最后更新 / Last updated &nbsp;<b>2026-08-06 02:22 CST</b><br>
-    <a class="archive-link" href="https://jialecharloote.github.io/ai-daily-page/archive/">往期存档 / Archive →</a>
-  </footer>
-
 </div>
 
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <!-- ── SPOTLIGHT ──────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 2 · News 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://claude.com/blog/claude-enterprise-inference-hooks">Inference hooks: inline data loss prevention for Claude Enterprise</a></h3>
+          <div class="hero-by">Words by <b>Claude Blog</b></div>
+          <p class="hero-sum">Inference hooks let compliance teams inspect and enforce policy on every prompt and tool call response before it reaches Claude. Coverage spans Claude Enterprise surfaces including chat, Claude Code, and Claude Cowork.</p>
+          <div class="hero-more"><a href="https://claude.com/blog/claude-enterprise-inference-hooks">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Aug 05, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models">Third-party cyber evaluations involving OpenAI models</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI explains recent third-party cybersecurity evaluation incidents and outlines new safeguards to strengthen model testing and evaluation.</p>
+            <div class="si-more"><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/mini-vibe-check-chatgpt-voice-mode">Mini-Vibe Check: ChatGPT Voice Mode</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">A short hands-on take on ChatGPT Voice Mode from the Every team, who are going all in on voice, plus a heads-up on their Aug 7 camp for paid subscribers.</p>
+            <div class="si-more"><a href="https://every.to/context-window/mini-vibe-check-chatgpt-voice-mode">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 06, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YOUTUBE PICKS ──────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">5</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/shorts/l32qe0MJGak">Humans will keep inventing new reasons why we must stay in the loop with agents</a></h3>
+          <div class="hero-by">Words by <b>Lenny's Podcast</b></div>
+          <p class="hero-sum">A short on why people keep finding fresh justifications to keep a human approval step in place as agents grow more capable.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/shorts/l32qe0MJGak">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Aug 05, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2aw5xDw-jtY">Do teams actually need PMs?</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A short revisiting whether the product manager role is actually necessary on a team.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2aw5xDw-jtY">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=Iy1W8vOxv5o">The Ocean Company - Ulysses | a16z American Dynamism</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z American Dynamism profile of ocean technology startup Ulysses.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=Iy1W8vOxv5o">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=uFt-tkagUUI">The Future is Metal - Mariana Minerals | a16z American Dynamism</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z American Dynamism profile of Mariana Minerals and critical metals supply.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=uFt-tkagUUI">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=-9Vh7tsgM7Y">The Nuclear Renaissance - Radiant | a16z American Dynamism</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z American Dynamism profile of nuclear startup Radiant.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=-9Vh7tsgM7Y">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── X.COM POSTS ────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-x last" id="sec-anchor-x">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--sage-dark)"></span>
+      X.com Top Posts
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">8 · by engagement</span>
+    </div>
+    <div class="x-feed">
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@swyx</span>
+          <span class="x-stats">❤ 7,850 · Aug 6</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Announcing Discovery Loop! I am very excited to announce that, along with my longtime friends and collaborators @Sanjay_Ghemawat, @OriolVinyalsML and @quocleix, we are founding Discovery Loop (@DiscoLoopAI), a Public Benefit Corporation whose mission is to automate machine learning, science, and engineering to accelerate discoveries and progress.</p>
+          <a href="https://x.com/swyx/status/2085034604172603724" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@garrytan</span>
+          <span class="x-stats">❤ 2,698 · Aug 5</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Make something agents want</p>
+          <a href="https://x.com/garrytan/status/2084977947375767647" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@rauchg</span>
+          <span class="x-stats">❤ 1,303 · Aug 5</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">We spent our entire lives, and human history, under the assumption intelligence was a scarce resource. Now, everyone can summon an inexhaustible IQ machine like it's tap water. And incidentally, the change is so profound our own brains can barely comprehend it.</p>
+          <a href="https://x.com/rauchg/status/2085021395797614803" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@swyx</span>
+          <span class="x-stats">❤ 641 · Aug 5</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Super relevant update on the Airtable acquisition! They spun out their AI business Hyperagent prior to the acquisition. So the company lives on, and likely some cash with it, probably can be recapitalized. Seems like a fantastic outcome — shed the old business and focus on AI.</p>
+          <a href="https://x.com/swyx/status/2084687434886135915" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@garrytan</span>
+          <span class="x-stats">❤ 571 · Aug 5</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Introducing Omanta (YC S26), the personalized research lab for each patient. Omanta integrates a patient's full medical record, personal genomics, and the latest scientific evidence to understand the molecular drivers of their disease, then maps existing and emerging therapies against their biology.</p>
+          <a href="https://x.com/garrytan/status/2084696480829628826" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@joshwoodward</span>
+          <span class="x-stats">❤ 473 · Aug 5</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Notebook is built for thinking, not toggling. While others add more modes, Notebook keeps everything in a single, unified prompt bar and just does the things you want. Ultra and Pro subscribers can jump in now, rolling out to everyone next.</p>
+          <a href="https://x.com/joshwoodward/status/2084746170576892342" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@amasad</span>
+          <span class="x-stats">❤ 378 · Aug 6</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Today we're announcing SPC Fund IV: $575M to help founders find their life's work. A decade of guiding founders through -1 to 0 brings @SPC to $2B in AUM and, more importantly, a 1200 member community of the world's most talented technologists.</p>
+          <a href="https://x.com/amasad/status/2085034980866998632" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@garrytan</span>
+          <span class="x-stats">❤ 368 · Aug 5</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">A company is a planned social order, but one built under pressure from customers, markets, hiring, cash, time, and technical constraint. The founder must generate belief, but ego turns belief into blindness.</p>
+          <a href="https://x.com/garrytan/status/2084992789780275628" class="x-lnk">View post &rarr;</a>
+        </div>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:10.5px;line-height:1.6;margin-top:18px;">Scraper returned 38 posts; the 8 above are the AI/tech-relevant ones. The script's keyword filter uses naive substring matching, so <code>'ai'</code> matches words like <code>air</code> and <code>Aisha</code>, admitting non-AI posts into the raw results. Those were excluded.</p>
+  </section>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <!-- ── 精选报道 ────────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 2 · 独立新闻 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://claude.com/blog/claude-enterprise-inference-hooks">推理钩子：面向 Claude Enterprise 的内联数据防泄漏</a></h3>
+          <div class="hero-by">来源 <b>Claude Blog</b></div>
+          <p class="hero-sum">合规团队可在每一次 prompt 和工具调用返回结果送达 Claude 之前进行检查并强制执行策略，覆盖 Claude Enterprise 的聊天、Claude Code、Claude Cowork 等多个入口。</p>
+          <div class="hero-more"><a href="https://claude.com/blog/claude-enterprise-inference-hooks">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Aug 05, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models">涉及 OpenAI 模型的第三方网络安全评估</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 说明了近期第三方网络安全评估中出现的问题，并公布了强化模型测试与评估流程的新保障措施。</p>
+            <div class="si-more"><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/mini-vibe-check-chatgpt-voice-mode">小型体验测评：ChatGPT 语音模式</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 团队正全面押注语音方向，本文是他们对 ChatGPT 语音模式的简短上手评测，并预告 8 月 7 日面向付费订阅者的线上活动。</p>
+            <div class="si-more"><a href="https://every.to/context-window/mini-vibe-check-chatgpt-voice-mode">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 06, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YouTube 精选 ─────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">5 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/shorts/l32qe0MJGak">人类会不断发明新理由，来论证自己必须留在 agent 的决策环路里</a></h3>
+          <div class="hero-by">来源 <b>Lenny's Podcast</b></div>
+          <p class="hero-sum">短视频，讨论随着 agent 能力不断提升，人类为何总能找到新的理由把自己保留在审批环节中。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/shorts/l32qe0MJGak">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Aug 05, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2aw5xDw-jtY">团队真的需要产品经理吗？</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">短视频，重新审视产品经理这一角色在团队中的必要性。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2aw5xDw-jtY">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=Iy1W8vOxv5o">海洋公司 Ulysses｜a16z 美国动能</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z「美国动能」系列，介绍海洋科技创业公司 Ulysses。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=Iy1W8vOxv5o">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=uFt-tkagUUI">未来属于金属：Mariana Minerals｜a16z 美国动能</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z「美国动能」系列，介绍矿业公司 Mariana Minerals 及关键金属供应议题。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=uFt-tkagUUI">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=-9Vh7tsgM7Y">核能复兴：Radiant｜a16z 美国动能</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z「美国动能」系列，介绍核能创业公司 Radiant。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=-9Vh7tsgM7Y">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Aug 05, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── X.com 热议 ───────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-x last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--sage-dark)"></span>
+      X.com 热议
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">8 条 · 按互动量排序</span>
+    </div>
+    <div class="x-feed">
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@swyx</span>
+          <span class="x-stats">❤ 7,850 · 8月6日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">宣布创办 Discovery Loop（@DiscoLoopAI），一家公益公司，联合创始人包括 Sanjay Ghemawat、Oriol Vinyals、Quoc Le，目标是自动化机器学习、科学与工程研究以加速发现。</p>
+          <a href="https://x.com/swyx/status/2085034604172603724" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@garrytan</span>
+          <span class="x-stats">❤ 2,698 · 8月5日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">「做 agent 想要的东西」——套用 YC 经典格言的一句话版本。</p>
+          <a href="https://x.com/garrytan/status/2084977947375767647" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@rauchg</span>
+          <span class="x-stats">❤ 1,303 · 8月5日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">人类历史一直假定智能是稀缺资源，如今任何人都能像用自来水一样随手调用无穷智力，这一转变之深刻，连我们自己的大脑都难以理解。</p>
+          <a href="https://x.com/rauchg/status/2085021395797614803" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@swyx</span>
+          <span class="x-stats">❤ 641 · 8月5日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Airtable 收购案的关键补充：他们在交易前把 AI 业务 Hyperagent 分拆了出来，公司得以存续并可能带走部分现金，甩掉旧业务专注 AI，是个相当不错的结局。</p>
+          <a href="https://x.com/swyx/status/2084687434886135915" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@garrytan</span>
+          <span class="x-stats">❤ 571 · 8月5日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">介绍 Omanta（YC S26）：面向每位患者的个性化研究实验室，整合完整病历、个人基因组与最新科研证据，定位疾病的分子驱动因素并匹配现有及在研疗法。</p>
+          <a href="https://x.com/garrytan/status/2084696480829628826" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@joshwoodward</span>
+          <span class="x-stats">❤ 473 · 8月5日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">Notebook 为思考而非切换模式而设计：别家不断增加模式，Notebook 把一切收进统一的提示栏。Ultra 和 Pro 订阅者已可使用，后续全量推送。</p>
+          <a href="https://x.com/joshwoodward/status/2084746170576892342" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@amasad</span>
+          <span class="x-stats">❤ 378 · 8月6日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">宣布 SPC Fund IV：5.75 亿美元，帮助创始人找到毕生事业。十年陪伴创始人走过 -1 到 0 的阶段，SPC 管理规模达 20 亿美元，社区汇聚 1200 位技术人才。</p>
+          <a href="https://x.com/amasad/status/2085034980866998632" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+      <div class="x-row">
+        <div class="x-meta">
+          <span class="x-handle">@garrytan</span>
+          <span class="x-stats">❤ 368 · 8月5日</span>
+        </div>
+        <div class="x-content">
+          <p class="x-body">公司是一种有计划的社会秩序，但建立在客户、市场、招聘、现金、时间与技术约束的压力之下；创始人必须制造信念，但自我会把信念变成盲目。</p>
+          <a href="https://x.com/garrytan/status/2084992789780275628" class="x-lnk">查看原帖 &rarr;</a>
+        </div>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:10.5px;line-height:1.6;margin-top:18px;">脚本共抓回 38 条，上列为 AI/科技相关的前 8 条。脚本的关键词过滤使用朴素子串匹配，<code>'ai'</code> 会误命中 <code>air</code>、<code>Aisha</code> 等词，导致非 AI 内容混入原始结果，已在此剔除。</p>
+  </section>
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · August 6, 2026 · Spotlight 2 + 1 · YouTube 5 · X.com 8</span>
+    </div>
+  </div>
+</footer>
+
 <script>
-  function setLang(lang) {
-    var isCn = lang === 'cn';
-    document.getElementById('panel-cn').hidden = !isCn;
-    document.getElementById('panel-en').hidden = isCn;
-    document.getElementById('btn-cn').setAttribute('aria-pressed', String(isCn));
-    document.getElementById('btn-en').setAttribute('aria-pressed', String(!isCn));
-    document.documentElement.lang = isCn ? 'zh-CN' : 'en';
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
   }
+
+  /* Highlight active nav link based on scroll position */
+  const SECS = ['spotlight', 'youtube', 'x'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
 </script>
 </body>
 </html>

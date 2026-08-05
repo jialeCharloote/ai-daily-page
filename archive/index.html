@@ -1,68 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="AI Daily 往期简报存档。">
-<title>往期存档 — AI Daily</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>">
-<style>
-  :root {
-    --paper: #f5f7f4; --ink: #14171c; --ink-soft: #59616b; --ink-faint: #8a929c;
-    --rule: #dde1da; --accent: #1a5fb4;
-    --serif: Georgia, 'Times New Roman', 'Songti SC', serif;
-    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --paper: #0f1216; --ink: #e7eae5; --ink-soft: #9aa3ad; --ink-faint: #6b737d;
-            --rule: #262c33; --accent: #7fb0ee; }
-  }
-  :root[data-theme="dark"] { --paper: #0f1216; --ink: #e7eae5; --ink-soft: #9aa3ad;
-                             --ink-faint: #6b737d; --rule: #262c33; --accent: #7fb0ee; }
-  :root[data-theme="light"] { --paper: #f5f7f4; --ink: #14171c; --ink-soft: #59616b;
-                              --ink-faint: #8a929c; --rule: #dde1da; --accent: #1a5fb4; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink);
-         font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  .shell { max-width: 780px; margin: 0 auto; padding: 0 24px 80px; }
-  .masthead { padding: 40px 0 20px; border-bottom: 2px solid var(--ink); }
-  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
-            text-transform: uppercase; color: var(--ink-faint); margin: 0 0 10px; }
-  .wordmark { font-family: var(--serif); font-size: clamp(32px, 6vw, 44px); font-weight: 400;
-              letter-spacing: -0.02em; line-height: 1; margin: 0; }
-  .back { font-family: var(--mono); font-size: 12px; color: var(--accent);
-          text-decoration: none; display: inline-block; margin-top: 18px; }
-  .back:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .back:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  ul { list-style: none; padding: 0; margin: 8px 0 0; }
-  li { border-bottom: 1px solid var(--rule); }
-  li a { display: flex; gap: 16px; align-items: baseline; padding: 16px 0;
-         text-decoration: none; color: var(--ink); }
-  li a:hover .issue-date { color: var(--accent); text-decoration: underline;
-                           text-underline-offset: 3px; }
-  li a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .issue-date { font-family: var(--mono); font-size: 14px; font-variant-numeric: tabular-nums; }
-  .issue-note { font-size: 13px; color: var(--ink-faint); }
-  .empty { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); padding: 24px 0; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>往期存档 — AI Daily</title>
+  <meta name="description" content="AI Daily 往期简报存档。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;
+      --border:    #1d1d1d;
+      --line:      #1d1d1d;
+      --blue:      #363b8f;
+      --gold:      #f4d06f;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    .nav-bar { display: flex; border-bottom: 1px solid var(--border); }
+    .nav-link { font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; color: #888880; padding: 10px 16px; border-right: 1px solid var(--border); transition: background .1s, color .1s; }
+    .nav-link:hover { background: var(--gold); color: var(--text); }
+    .nav-link:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; margin: 40px 0 20px; }
+    .sec-dot { width: 8px; height: 8px; background: var(--blue); flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    .issues { list-style: none; border-top: 1px solid var(--line); }
+    .issues li { border-bottom: 1px solid var(--line); }
+    .issues a { display: flex; align-items: baseline; gap: 24px; padding: 20px 4px; transition: background .1s; }
+    .issues a:hover { background: var(--gold); }
+    .issues a:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+    .issue-date { font-family: var(--mono); font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; min-width: 120px; }
+    .issue-lead { font-family: var(--serif); font-size: 17px; font-weight: 700; line-height: 1.2; flex: 1; }
+    .issue-counts { font-family: var(--mono); font-size: 11px; color: #555; white-space: nowrap; }
+
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; margin-top: 56px; }
+    .fi { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; }
+
+    @media (max-width: 640px) {
+      :root { --pad: 20px; }
+      .issues a { flex-wrap: wrap; gap: 8px; }
+      .issue-date { min-width: 0; }
+    }
+  </style>
 </head>
 <body>
-<div class="shell">
-  <header class="masthead">
-    <p class="kicker">Archive · 北京时间 UTC+8</p>
-    <h1 class="wordmark">往期存档</h1>
-    <a class="back" href="../">← 回到最新一期</a>
-  </header>
 
-  <ul>
+<header class="masthead">
+  <div class="wrap">
+    <div class="mh">
+      <div>
+        <div class="mh-eye">Archive</div>
+        <h1 class="mh-name">AI Daily</h1>
+      </div>
+      <div class="mh-date">往期存档<br>Beijing Time · UTC+8</div>
+    </div>
+  </div>
+  <hr class="mh-rule">
+</header>
+
+<div class="wrap">
+  <nav class="nav-bar">
+    <a class="nav-link" href="../">← 最新一期 / Latest</a>
+  </nav>
+
+  <div class="sec">
+    <span class="sec-dot"></span>
+    All Issues
+    <span class="sec-rule"></span>
+    <span style="font-size:10px">1</span>
+  </div>
+
+  <ul class="issues">
     <li>
       <a href="2026-08-06.html">
         <span class="issue-date">2026-08-06</span>
-        <span class="issue-note">官方 2 · 新闻 1 · 视频 5 · X 8</span>
+        <span class="issue-lead">Claude Enterprise 推理钩子：把数据防泄漏做进推理链路</span>
+        <span class="issue-counts">官方 2 · 新闻 1 · 视频 5 · X 8</span>
       </a>
     </li>
   </ul>
 </div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit">每日抓取官方博客 · 独立媒体 · YouTube · X.com　|　北京时间 UTC+8</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
