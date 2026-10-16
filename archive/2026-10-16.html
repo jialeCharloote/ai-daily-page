@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 16, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 16, 2026 · Beijing UTC+8<br>issued Oct 16, 11:34 PT · Oct 16, 13:34 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <!-- ── SPOTLIGHT ──────────────────────────────────────────────────────────── -->
+  <!-- Hero = most important Spotlight article (Official Updates or top news).   -->
+  <!-- Right grid = remaining Spotlight articles. Repeat .si for each item.     -->
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 5 · News 2</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/an-update-on-independent-evaluators">Anthropic update on independent evaluators</a></h3>
+          <div class="hero-by">Words by <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic announces updates to how it embeds independent evaluators in its work. New today and the lead official update; the fetched summary is a single line, so the specifics of the arrangement are in the original.</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/an-update-on-independent-evaluators">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 16, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/introducing-the-rosalind-academic-plan">Bringing GPT-Rosalind to academic research labs</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI introduces the Rosalind Academic Plan, which gives eligible academic labs sponsored access to GPT-Rosalind and tools to advance life sciences research. New today.</p>
+            <div class="si-more"><a href="https://openai.com/index/introducing-the-rosalind-academic-plan">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/sullivan-cromwell">Sullivan &amp; Cromwell brings legal expertise into agreement review</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Law firm Sullivan &amp; Cromwell, working with OpenAI, built Agreement Analyzer, an AI tool that flags issues in a draft agreement. New today.</p>
+            <div class="si-more"><a href="https://openai.com/index/sullivan-cromwell">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.anthropic.com/news/2026-us-midterms">Preparing for the 2026 US midterms</a></h3>
+            <div class="si-by">Words by <b>Anthropic</b></div>
+            <p class="si-sum">Anthropic outlines how it has continued to strengthen its election safeguards ahead of this year&#x27;s US midterms, following an update it shared earlier in the year. Yesterday&#x27;s Spotlight lead.</p>
+            <div class="si-more"><a href="https://www.anthropic.com/news/2026-us-midterms">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/teaching-students-to-think-and-learn-through-questions">Teaching students to think and learn through questions</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">For Teachers&#x27; Day in Brazil, OpenAI releases AI for Educators in Brazilian Portuguese and shows how Study Mode can help teachers support active, step-by-step learning. Listed yesterday.</p>
+            <div class="si-more"><a href="https://openai.com/index/teaching-students-to-think-and-learn-through-questions">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://scsp222.substack.com/p/the-open-frontier">The Open Frontier</a></h3>
+            <div class="si-by">Words by <b>SCSP</b></div>
+            <p class="si-sum">SCSP&#x27;s newsletter on how America wins the AI diffusion race. Only the subtitle was fetched, so this is described from the title. New today.</p>
+            <div class="si-more"><a href="https://scsp222.substack.com/p/the-open-frontier">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/the-best-founders-have-something-ai-can-t-tell-them">The Best Founders Have Something AI Can&#x27;t Tell Them</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">Every&#x27;s Context Window newsletter on what the best founders have that AI can&#x27;t tell them. Also inside: agents keeping tabs on a cattle genetics startup, an AI onboarding buddy, and seven predictions about the future of work. Only the preview text was fetched. Listed yesterday.</p>
+            <div class="si-more"><a href="https://every.to/context-window/the-best-founders-have-something-ai-can-t-tell-them">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+        
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YOUTUBE PICKS ──────────────────────────────────────────────────────── -->
+  <!-- Hero = top YouTube video (most relevant or highest-quality pick).         -->
+  <!-- Right grid = remaining YouTube videos. Repeat .si for each item.         -->
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">11</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=jEOUUAPC1sc">Make cool things with AI that people buy (Gemini 4 Argon)</a></h3>
+          <div class="hero-by">Words by <b>Greg Isenberg</b></div>
+          <p class="hero-sum">Greg Isenberg on making things with AI that people actually pay for, built around Gemini 4 Argon. New today; described from the title only, the fetch gives no transcript.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=jEOUUAPC1sc">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 16, 04:40</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=blkIGLlZePg">Why AI Can Write Code But Can&#x27;t Keep It Running (Yet)</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z on why AI can write code but cannot yet keep it running in production, the operations gap behind coding agents. New today; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=blkIGLlZePg">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 22:30</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=KZiF2J83zaY">AI Agents Just Became Multiplayer. Here&#x27;s How to Build Them.</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk on AI agents going multiplayer and how to build them. New today; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=KZiF2J83zaY">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 23:16</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/saxdE-U_YS8">AI Agents Just Became Multiplayer. Here&#x27;s How to Build Them.</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">Short companion to the full multiplayer-agents video above.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/saxdE-U_YS8">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 00:33</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/K70Qf06XBLE">McKinsey Explains: Build an AI Operating System</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">A Nate Herk short on McKinsey&#x27;s framing of how a company builds an AI operating system. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/K70Qf06XBLE">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 05:06</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/gNMN-7D9130">Claude Opus 5.5 is my video editor</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">A Nate Herk short on using Claude Opus 5.5 as his video editor, following his earlier short on Claude changing how he edits. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/gNMN-7D9130">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 21:21</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/F-9TfjzbL8Q">Every Company Needs A Labs Team</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny&#x27;s Podcast short arguing that every company needs a labs team. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/F-9TfjzbL8Q">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 09:00</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/iaBAkTYgTx4">What Is an AI &quot;Super Learner&quot;? Ineffable Intelligence&#x27;s David Silver Explains</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">A Sequoia Capital short cut from the David Silver conversation: what an AI super learner is. New today.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/iaBAkTYgTx4">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 01:06</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=q8cb1XL9sXA">Agentic Commerce: Why Your Wallet Is About to Change</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z on agentic commerce and why your wallet is about to change. Yesterday&#x27;s YouTube lead, since retitled from &quot;What Happens When AI Agents Can Spend Your Money?&quot;</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=q8cb1XL9sXA">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 21:55</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/6RxDFLsJxf8">What it takes for gigawatt of power at 99.99% reliability | Google&#x27;s Amin Vahdat</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">A Sequoia Capital short with Google&#x27;s Amin Vahdat on delivering a gigawatt of power at 99.99% reliability for AI infrastructure. Listed yesterday.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/6RxDFLsJxf8">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 03:02</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/jYAwiy14Jl4">Go back to basics.</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z short with the one-line message to go back to basics. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/jYAwiy14Jl4">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 05:36</span><span class="si-fill"></span></div>
+        </div>
+        
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <!-- ── 精选报道 ────────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 5 · 独立新闻 2</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/an-update-on-independent-evaluators">Anthropic 关于独立评估方的最新安排</a></h3>
+          <div class="hero-by">来源 <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic 宣布关于引入独立评估方（independent evaluators）的最新安排。今日新发，官方更新头条；抓取到的摘要只有一句话，具体内容见原文。</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/an-update-on-independent-evaluators">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 16, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/introducing-the-rosalind-academic-plan">把 GPT-Rosalind 带进学术研究实验室</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 推出 Rosalind Academic Plan，为符合条件的学术实验室提供 GPT-Rosalind 的赞助使用权及配套工具，推进生命科学研究。今日新。</p>
+            <div class="si-more"><a href="https://openai.com/index/introducing-the-rosalind-academic-plan">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/sullivan-cromwell">Sullivan &amp; Cromwell 把法律专长带进合同审查</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">律所 Sullivan &amp; Cromwell 与 OpenAI 合作开发了 Agreement Analyzer，一款用于识别合同草案问题的 AI 工具。今日新。</p>
+            <div class="si-more"><a href="https://openai.com/index/sullivan-cromwell">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.anthropic.com/news/2026-us-midterms">为 2026 年美国中期选举做准备</a></h3>
+            <div class="si-by">来源 <b>Anthropic</b></div>
+            <p class="si-sum">Anthropic 介绍在今年早些时候更新选举安全措施之后，如何在美国中期选举前继续加强这些保障。昨日 Spotlight 头条。</p>
+            <div class="si-more"><a href="https://www.anthropic.com/news/2026-us-midterms">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/teaching-students-to-think-and-learn-through-questions">教学生通过提问来思考与学习</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 借巴西教师节推出巴西葡萄牙语版「AI for Educators」，并展示 Study Mode 如何帮助教师支持主动的、循序渐进的学习。昨日已列。</p>
+            <div class="si-more"><a href="https://openai.com/index/teaching-students-to-think-and-learn-through-questions">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://scsp222.substack.com/p/the-open-frontier">开放前沿</a></h3>
+            <div class="si-by">来源 <b>SCSP</b></div>
+            <p class="si-sum">SCSP 通讯「开放前沿」：美国如何赢得 AI 扩散竞赛。抓取仅含副标题，故仅依据标题描述。今日新。</p>
+            <div class="si-more"><a href="https://scsp222.substack.com/p/the-open-frontier">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/the-best-founders-have-something-ai-can-t-tell-them">最好的创始人拥有 AI 无法告诉他们的东西</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 的 Context Window 通讯：最好的创始人身上有 AI 无法替代的东西。另有：智能体帮一家牛只基因公司盯业务、AI 入职伙伴，以及关于未来工作的七个预测。抓取仅含预览文字。昨日已列。</p>
+            <div class="si-more"><a href="https://every.to/context-window/the-best-founders-have-something-ai-can-t-tell-them">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 2026</span><span class="si-fill"></span></div>
+        </div>
+        
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YouTube 精选 ─────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">11 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=jEOUUAPC1sc">用 AI 做出真正有人买单的东西（Gemini 4 Argon）</a></h3>
+          <div class="hero-by">来源 <b>Greg Isenberg</b></div>
+          <p class="hero-sum">Greg Isenberg 谈如何用 AI 做出真正有人掏钱买的东西，围绕 Gemini 4 Argon 展开。今日新；仅依据标题描述，抓取不含文字稿。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=jEOUUAPC1sc">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 16, 04:40</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=blkIGLlZePg">为什么 AI 能写代码，却（暂时）不能让它持续运行</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 谈为什么 AI 能写代码却还不能让它在生产环境里持续运行——编程智能体背后的运维缺口。今日新；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=blkIGLlZePg">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 22:30</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=KZiF2J83zaY">AI 智能体进入「多人协作」时代：如何搭建</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 谈 AI 智能体进入「多人协作」时代，以及如何搭建它们。今日新；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=KZiF2J83zaY">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 23:16</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/saxdE-U_YS8">AI 智能体进入「多人协作」时代：如何搭建（短片）</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">上面「多人协作智能体」完整视频的配套短片。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/saxdE-U_YS8">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 00:33</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/K70Qf06XBLE">麦肯锡解读：搭建企业的 AI 操作系统</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 短视频：麦肯锡如何阐述企业搭建「AI 操作系统」。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/K70Qf06XBLE">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 05:06</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/gNMN-7D9130">Claude Opus 5.5 是我的视频剪辑师</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 短视频：把 Claude Opus 5.5 当作自己的视频剪辑师，延续他此前关于 Claude 改变剪辑方式的短片。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/gNMN-7D9130">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 21:21</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/F-9TfjzbL8Q">每家公司都需要一个 Labs 团队</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny&#x27;s Podcast 短视频：每家公司都需要一个 Labs 团队。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/F-9TfjzbL8Q">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 09:00</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/iaBAkTYgTx4">什么是 AI「超级学习者」？Ineffable Intelligence 的 David Silver 解释</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 从 David Silver 对谈中剪出的短片：什么是 AI「超级学习者」。今日新。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/iaBAkTYgTx4">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 01:06</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=q8cb1XL9sXA">智能体商务：你的钱包为何即将改变</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 谈智能体商务，以及你的钱包为何即将改变。昨日 YouTube 头条，视频已从「当 AI 智能体能花你的钱」改名。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=q8cb1XL9sXA">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 21:55</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/6RxDFLsJxf8">以 99.99% 可靠性供应 1 吉瓦电力需要什么 | Google 的 Amin Vahdat</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 短片，Google 的 Amin Vahdat 谈为 AI 基础设施以 99.99% 可靠性供应 1 吉瓦电力需要什么。昨日已列。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/6RxDFLsJxf8">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 15, 03:02</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/jYAwiy14Jl4">回归基本功</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 短视频，一句话主旨：回归基本功。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/jYAwiy14Jl4">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 16, 05:36</span><span class="si-fill"></span></div>
+        </div>
+        
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 16, 2026 · Spotlight 5 + 2 · YouTube 11 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'markets' is dropped from this list on days with no market posts (the
+  // section and its nav link are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
