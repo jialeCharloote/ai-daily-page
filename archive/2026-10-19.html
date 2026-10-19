@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 19, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 19, 2026 · Beijing UTC+8<br>issued Oct 19, 08:26 PT · Oct 19, 10:26 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 1 · News 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/public-benefit-fund">Investing in the public benefit</a></h3>
+          <div class="hero-by">Words by <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic is committing a portion of its shares to the Anthropic Public Benefit Fund, a new entity whose structure increases its stake as the company grows. Only the announcement summary was fetched, so the fund&#x27;s governance and how it will deploy the money are not described here. The only official update in the window.</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/public-benefit-fund">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 19, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/codex-s-comeback-up-close">Codex&#x27;s Comeback Up Close</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">Every&#x27;s Context Window newsletter takes a close look at the comeback of OpenAI&#x27;s Codex, alongside a Gemini 4 Argon vibe check, why technical founders win when startups pivot, and seven new Thesis Statements. Only the preview text was fetched. Carried over from yesterday&#x27;s issue: it is the only independent article in today&#x27;s window.</p>
+            <div class="si-more"><a href="https://every.to/context-window/codex-s-comeback-up-close">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 18, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">6</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=o_5f4N6Nq80">Why a $1M Startup Wasn&#x27;t Worth Building in the Age of AI</a></h3>
+          <div class="hero-by">Words by <b>a16z</b></div>
+          <p class="hero-sum">An a16z video arguing why a startup at the $1M mark was not worth building once AI reset the bar for what counts as a venture-scale company. Full-length video and the most relevant new upload today; described from the title only, the fetch gives no transcript.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=o_5f4N6Nq80">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 19, 22:30</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=hgLI491ajG0">I Tried 100+ AI Tools. These 7 Are the Best</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk narrows more than a hundred AI tools he has tried down to the seven he finds best. Full-length video; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=hgLI491ajG0">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 19, 22:22</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=JHo-aiePjoM">A mind-expanding conversation on how models actually work | Emmanuel Ameisen (Anthropic)</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny Rachitsky with Anthropic&#x27;s Emmanuel Ameisen on how large language models actually work under the hood. Yesterday&#x27;s hero, still in the window; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=JHo-aiePjoM">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 18, 20:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/wppJFCytpOE">Hire for Unlearning Rate, Not Learning Rate</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny&#x27;s Podcast short on hiring for how fast people can unlearn old habits rather than how fast they learn. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/wppJFCytpOE">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 19, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ALbuCR4uH2E">Mark Zuckerberg&#x27;s take on risk.</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z short with Mark Zuckerberg&#x27;s view on taking risk. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ALbuCR4uH2E">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 19, 15:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/uU7TH-K-RYU">Fall in Love With the Problem, Not the Product</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny&#x27;s Podcast short with the product-building maxim to fall in love with the problem rather than the product. Also in yesterday&#x27;s issue; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/uU7TH-K-RYU">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 18, 18:30</span><span class="si-fill"></span></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 1 · 独立新闻 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/public-benefit-fund">投资于公共利益</a></h3>
+          <div class="hero-by">来源 <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic 宣布将一部分公司股份投入新设立的「Anthropic 公益基金」（Anthropic Public Benefit Fund），其结构设计为随公司成长而持股比例递增。抓取仅含公告摘要，基金的治理方式和资金用途不在此描述。本期唯一的官方更新。</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/public-benefit-fund">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 19, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/codex-s-comeback-up-close">近距离看 Codex 的回归</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 的 Context Window 通讯：近距离观察 OpenAI Codex 的回归，另有 Gemini 4 Argon 上手体验、为何技术型创始人在创业转型时更占优势，以及七条新的 Thesis Statements。抓取仅含预览文字。沿自昨日一期：这是今日窗口内唯一的独立新闻。</p>
+            <div class="si-more"><a href="https://every.to/context-window/codex-s-comeback-up-close">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 18, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">6 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=o_5f4N6Nq80">为什么一家 100 万美元的创业公司在 AI 时代不值得做</a></h3>
+          <div class="hero-by">来源 <b>a16z</b></div>
+          <p class="hero-sum">a16z 视频：当 AI 重置了「值得做的公司」门槛之后，为什么一家 100 万美元量级的创业公司不再值得去做。完整视频，也是今日最相关的新上传；仅依据标题描述，抓取不含文字稿。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=o_5f4N6Nq80">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 19, 22:30</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=hgLI491ajG0">我试了 100 多个 AI 工具，这 7 个最好</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 从他试过的 100 多个 AI 工具里挑出他认为最好的 7 个。完整视频；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=hgLI491ajG0">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 19, 22:22</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=JHo-aiePjoM">一场拓展思维的对话：模型到底是如何工作的 | Emmanuel Ameisen（Anthropic）</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny Rachitsky 对话 Anthropic 的 Emmanuel Ameisen，谈大语言模型在底层到底是如何工作的。昨日头条，仍在窗口内；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=JHo-aiePjoM">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 18, 20:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/wppJFCytpOE">招人要看「忘却速度」，而不是学习速度</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny&#x27;s Podcast 短视频：招人时看的是一个人丢掉旧习惯的速度，而不是学新东西的速度。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/wppJFCytpOE">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 19, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ALbuCR4uH2E">Mark Zuckerberg 怎么看风险</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 短视频：Mark Zuckerberg 对冒险的看法。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ALbuCR4uH2E">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 19, 15:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/uU7TH-K-RYU">爱上问题，而不是产品</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny&#x27;s Podcast 短视频，产品箴言：爱上要解决的问题，而不是你的产品本身。昨日已收录；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/uU7TH-K-RYU">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 18, 18:30</span><span class="si-fill"></span></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 19, 2026 · Spotlight 1 + 1 · YouTube 6 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'x' and 'markets' are dropped on days the X fetch returned nothing (the
+  // sections and their nav links are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
