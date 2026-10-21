@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 21, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 21, 2026 · Beijing UTC+8<br>issued Oct 21, 08:28 PT · Oct 21, 10:28 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 8 · News 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://openai.com/index/openai-models-google-cloud">OpenAI models are coming to Google Cloud</a></h3>
+          <div class="hero-by">Words by <b>OpenAI</b></div>
+          <p class="hero-sum">OpenAI and Google Cloud are bringing OpenAI&#x27;s frontier models and Codex workflows to Gemini&#x27;s Model Garden, available through the Google Cloud Marketplace. Only the feed summary was fetched, so which models, the pricing and the rollout timeline are not described here. The most consequential of eight OpenAI updates today: OpenAI&#x27;s models will now be distributed through the cloud of its main model rival.</p>
+          <div class="hero-more"><a href="https://openai.com/index/openai-models-google-cloud">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 21, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/openai-to-acquire-orchestra-bio">OpenAI acquires Orchestra Bio</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI is acquiring Orchestra Bio to bring AI-powered operations to life-sciences R&amp;D, with the stated aim of helping biopharma teams accelerate drug development and advance new treatments. Only the feed summary was fetched, so the deal terms and what Orchestra Bio actually builds are not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/openai-to-acquire-orchestra-bio">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities">Patch the Planet: global response coordination as agents uncover critical vulnerabilities</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI launches Patch the Planet, a coordination effort that connects security researchers, open-source maintainers and incident responders to address critical vulnerabilities that AI agents are now uncovering across open source. Only the feed summary was fetched, so the disclosure process and the vulnerabilities found so far are not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/chatgpt-ads-expands-26-new-countries">ChatGPT Ads expands to 26 new countries as over 100,000 advertisers have used the platform</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">ChatGPT&#x27;s ads platform opens in 26 more countries, and OpenAI says more than 100,000 advertisers, from local businesses to global brands, have used it to reach people as they explore, compare and decide what to buy. Only the feed summary was fetched, so the country list is not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/chatgpt-ads-expands-26-new-countries">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/scaling-ai-research-for-complex-biological-data">Using thousands of AI agents to uncover new leads in biological data</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI, PerturbAI and Scripps Research used distributed AI agents to surface promising research leads in data from millions of brain cells. Only the feed summary was fetched, so the method and the leads themselves are not described here. Together with the Orchestra Bio acquisition, the second life-sciences move of the day.</p>
+            <div class="si-more"><a href="https://openai.com/index/scaling-ai-research-for-complex-biological-data">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/building-chatgpt-ad-stack">How we built ChatGPT&#x27;s novel ad stack for user trust and relevance</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI explains the LLM-powered ad stack behind ChatGPT Ads: understanding conversational intent, keeping ads separate from answers, and delivering relevant ads at scale. Only the feed summary was fetched, so the architecture details are not described here. Companion piece to today&#x27;s ads expansion.</p>
+            <div class="si-more"><a href="https://openai.com/index/building-chatgpt-ad-stack">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/terminal-x">Terminal X matches senior investor judgment 88.6% with GPT-6.1</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story: Terminal X&#x27;s Eval Agent grades outputs against a 54-criterion rubric and, with GPT-6.1 Sol, catches 25% more deviations from a fund&#x27;s mandate; OpenAI says it matches senior investor judgment 88.6% of the time. Only the feed summary was fetched.</p>
+            <div class="si-more"><a href="https://openai.com/index/terminal-x">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/ted-taylor-restaurant">Franchisee reconciles cash in 94% less time with ChatGPT Work</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story: an independent Schlotzsky&#x27;s and Cinnabon franchisee cut cash reconciliation time by 94% and menu repricing time by 95% with ChatGPT Work, building a workflow OpenAI says could free up $100K in cash flow. Only the feed summary was fetched.</p>
+            <div class="si-more"><a href="https://openai.com/index/ted-taylor-restaurant">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://scsp222.substack.com/p/doctored-satellite-imagery">Doctored Satellite Imagery</a></h3>
+            <div class="si-by">Words by <b>SCSP</b></div>
+            <p class="si-sum">SCSP&#x27;s Substack on how AI is making satellite imagery easier to fake and harder to verify. Only the one-line feed summary was fetched, so the specific cases and verification methods are not described here. Also in yesterday&#x27;s issue, and still the only independent article in the window.</p>
+            <div class="si-more"><a href="https://scsp222.substack.com/p/doctored-satellite-imagery">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">11</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/shorts/OawSCIZdZmU">Opus 5.5 + Blender = Insane 3D Renders</a></h3>
+          <div class="hero-by">Words by <b>Nate Herk</b></div>
+          <p class="hero-sum">A Nate Herk short pairing Opus 5.5 with Blender to produce 3D renders. Today&#x27;s most relevant new upload, and one of three near-identical shorts he posted on the same Claude-plus-Blender workflow (the other two are listed below). Described from the title only, the fetch gives no transcript, so the workflow and the renders themselves are not described here.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/shorts/OawSCIZdZmU">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 21, 21:09</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=tpZOU1ugODQ">Meta Muse Will Create 1,000 Millionaires</a></h3>
+            <div class="si-by">Words by <b>Greg Isenberg</b></div>
+            <p class="si-sum">Greg Isenberg argues that Meta Muse will create a thousand millionaires. Full-length video; yesterday&#x27;s hero, still in the window. Described from the title only, so what Meta Muse is and who those millionaires would be are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=tpZOU1ugODQ">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 01:50</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=9n0MI4D7TCM">Should You Trust ChatGPT With Your Health?</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z video asking whether ChatGPT can be trusted with health questions. Full-length video; also in yesterday&#x27;s issue, described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=9n0MI4D7TCM">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 22:30</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=0idrTKCDhuE">Inside the Robot Data Factory: Mecka&#x27;s Josh Gao on Sensorizing Humans to Train Robots</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital with Mecka&#x27;s Josh Gao on putting sensors on humans to collect robot training data. Full-length video; also in yesterday&#x27;s issue, described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=0idrTKCDhuE">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 20:00</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/zTfpVoIT03s">Claude Code + Blender = Beautiful 3D Renders</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk short on driving Blender from Claude Code to produce 3D renders. Posted the same minute as today&#x27;s hero with a near-identical title; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/zTfpVoIT03s">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 21:09</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ezCmuRCAVXY">Claude Code + Blender = Insane 3D Renders</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">The earliest of Nate Herk&#x27;s three Claude-plus-Blender shorts today; same workflow, described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ezCmuRCAVXY">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 01:52</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2U8jn2M7g7U">This GitHub repo will automate getting you a job</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">A Nate Herk short on a GitHub repository that automates the job hunt. Described from the title only, so which repo it is and what it automates are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2U8jn2M7g7U">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 01:48</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/IMi_ihnWZI8">Good Ideas Don&#x27;t Come From Design Sprints</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny&#x27;s Podcast short arguing that good product ideas do not come out of design sprints. New today; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/IMi_ihnWZI8">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 18:30</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/N7yTF9dgObg">Celebrate the PM Who Says “Don’t Launch This”</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny&#x27;s Podcast short on celebrating the product manager who is willing to say a feature should not ship. Also in yesterday&#x27;s issue; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/N7yTF9dgObg">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 18:30</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/1H3PzGhYtVI">Why Go Is &quot;An Infinite Onion of Complexity&quot; | David Silver, Ineffable Intelligence</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">A Sequoia Capital short with David Silver of Ineffable Intelligence on why the game of Go is an infinite onion of complexity. Also in yesterday&#x27;s issue; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/1H3PzGhYtVI">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 07:00</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/vraEXUoH4Wc">You Can&#x27;t Write a Reward Function for Science. | David Silver, Ineffable Intelligence</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">A Sequoia Capital short with David Silver on why you cannot write a reward function for science. Also in yesterday&#x27;s issue; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/vraEXUoH4Wc">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 02:31</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 8 · 独立新闻 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://openai.com/index/openai-models-google-cloud">OpenAI 模型登陆 Google Cloud</a></h3>
+          <div class="hero-by">来源 <b>OpenAI</b></div>
+          <p class="hero-sum">OpenAI 与 Google Cloud 合作，把 OpenAI 的前沿模型和 Codex 工作流引入 Gemini 的 Model Garden，可通过 Google Cloud Marketplace 获取。抓取仅含 RSS 摘要，具体涉及哪些模型、定价和上线时间表不在此描述。今日 8 条 OpenAI 更新中最重要的一条：OpenAI 的模型开始通过其主要模型竞争对手的云平台分发。</p>
+          <div class="hero-more"><a href="https://openai.com/index/openai-models-google-cloud">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 21, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/openai-to-acquire-orchestra-bio">OpenAI 收购 Orchestra Bio</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 宣布收购 Orchestra Bio，把 AI 驱动的运营能力带入生命科学研发，目标是帮助生物制药团队加速药物开发、推进新疗法。抓取仅含摘要，交易条款和 Orchestra Bio 的具体产品不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/openai-to-acquire-orchestra-bio">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities">Patch the Planet：当智能体不断发现严重漏洞，如何在全球协调响应</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 推出 Patch the Planet，把安全研究者、开源维护者和事件响应者连接起来，共同处理 AI 智能体在开源软件中不断发现的严重漏洞。抓取仅含摘要，披露流程和目前已发现的漏洞不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/chatgpt-ads-expands-26-new-countries">ChatGPT 广告扩展至 26 个新国家，已有超过 10 万广告主使用</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">ChatGPT 广告平台新增 26 个国家，OpenAI 称从本地商家到全球品牌已有超过 10 万广告主使用，在用户浏览、比较和决定购买时触达他们。抓取仅含摘要，具体国家名单不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/chatgpt-ads-expands-26-new-countries">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/scaling-ai-research-for-complex-biological-data">用数千个 AI 智能体在生物数据中发现新线索</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI、PerturbAI 与 Scripps Research 用分布式 AI 智能体，在数百万脑细胞的数据中挖掘有价值的研究线索。抓取仅含摘要，具体方法和发现的线索不在此描述。与 Orchestra Bio 收购一起，是今日第二条生命科学方向的动作。</p>
+            <div class="si-more"><a href="https://openai.com/index/scaling-ai-research-for-complex-biological-data">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/building-chatgpt-ad-stack">我们如何为 ChatGPT 构建兼顾用户信任与相关性的新型广告系统</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 介绍 ChatGPT 广告背后由大模型驱动的广告系统：理解对话意图、把广告与回答分开、大规模投放相关广告。抓取仅含摘要，架构细节不在此描述。与今日广告扩展公告配套。</p>
+            <div class="si-more"><a href="https://openai.com/index/building-chatgpt-ad-stack">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/terminal-x">Terminal X 用 GPT-6.1 达到与资深投资人判断 88.6% 的一致率</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例：Terminal X 的评估智能体按 54 项标准的评分表给输出打分，借助 GPT-6.1 Sol 多捕捉到 25% 偏离基金授权的情况；OpenAI 称其与资深投资人判断的一致率为 88.6%。抓取仅含摘要。</p>
+            <div class="si-more"><a href="https://openai.com/index/terminal-x">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/ted-taylor-restaurant">加盟商用 ChatGPT Work 把现金对账时间缩短 94%</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例：一家独立经营 Schlotzsky’s 和 Cinnabon 的加盟商用 ChatGPT Work 把现金对账时间缩短 94%、菜单重新定价时间缩短 95%，OpenAI 称其搭建的工作流可释放 10 万美元现金流。抓取仅含摘要。</p>
+            <div class="si-more"><a href="https://openai.com/index/ted-taylor-restaurant">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://scsp222.substack.com/p/doctored-satellite-imagery">被篡改的卫星影像</a></h3>
+            <div class="si-by">来源 <b>SCSP</b></div>
+            <p class="si-sum">SCSP 的 Substack 文章：AI 如何让卫星影像更容易伪造、更难核实。抓取仅含一句 RSS 摘要，具体案例和核验方法不在此描述。昨日已收录，仍是窗口内唯一的独立新闻。</p>
+            <div class="si-more"><a href="https://scsp222.substack.com/p/doctored-satellite-imagery">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">11 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/shorts/OawSCIZdZmU">Opus 5.5 + Blender = 惊人的 3D 渲染</a></h3>
+          <div class="hero-by">来源 <b>Nate Herk</b></div>
+          <p class="hero-sum">Nate Herk 短视频：用 Opus 5.5 配合 Blender 做 3D 渲染。今日最相关的新上传，也是他今天围绕同一套 Claude + Blender 流程发布的三条近似短视频之一（另两条见下）。仅依据标题描述，抓取不含文字稿，具体流程和渲染效果不在此描述。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/shorts/OawSCIZdZmU">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 21, 21:09</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=tpZOU1ugODQ">Meta Muse 将造就 1000 个百万富翁</a></h3>
+            <div class="si-by">来源 <b>Greg Isenberg</b></div>
+            <p class="si-sum">Greg Isenberg 提出 Meta Muse 将造就一千个百万富翁。完整视频；昨日头条，仍在窗口内。仅依据标题描述，Meta Muse 具体是什么、谁会从中获益不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=tpZOU1ugODQ">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 01:50</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=9n0MI4D7TCM">你该把健康问题交给 ChatGPT 吗？</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 视频：ChatGPT 在健康问题上是否值得信任。完整视频；昨日已收录，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=9n0MI4D7TCM">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 22:30</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=0idrTKCDhuE">机器人数据工厂内部：Mecka 的 Josh Gao 谈给人体装传感器来训练机器人</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 对话 Mecka 的 Josh Gao，谈在人身上装传感器来采集机器人训练数据。完整视频；昨日已收录，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=0idrTKCDhuE">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 20:00</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/zTfpVoIT03s">Claude Code + Blender = 漂亮的 3D 渲染</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 短视频：用 Claude Code 驱动 Blender 做 3D 渲染。与今日头条同一分钟发布、标题近似；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/zTfpVoIT03s">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 21:09</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ezCmuRCAVXY">Claude Code + Blender = 惊人的 3D 渲染</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 今天三条 Claude + Blender 短视频中最早的一条；同一套流程，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ezCmuRCAVXY">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 01:52</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2U8jn2M7g7U">这个 GitHub 仓库能自动帮你找工作</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 短视频：一个能把找工作流程自动化的 GitHub 仓库。仅依据标题描述，具体是哪个仓库、自动化了什么不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2U8jn2M7g7U">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 01:48</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/IMi_ihnWZI8">好点子不是设计冲刺跑出来的</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频：好的产品点子不是从设计冲刺里出来的。今日新上传；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/IMi_ihnWZI8">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 21, 18:30</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/N7yTF9dgObg">为敢说「别上线」的产品经理喝彩</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频：要为敢说「这个别上线」的产品经理喝彩。昨日已收录；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/N7yTF9dgObg">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 18:30</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/1H3PzGhYtVI">为什么围棋是「一颗无限的复杂洋葱」| David Silver，Ineffable Intelligence</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 短视频：Ineffable Intelligence 的 David Silver 谈为什么围棋是一颗剥不完的「复杂洋葱」。昨日已收录；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/1H3PzGhYtVI">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 07:00</span><span class="si-fill"></span></div>
+        </div>
+
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/vraEXUoH4Wc">你无法为科学写出一个奖励函数 | David Silver，Ineffable Intelligence</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 短视频：David Silver 谈为什么无法为科学写出一个奖励函数。昨日已收录；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/vraEXUoH4Wc">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 20, 02:31</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 21, 2026 · Spotlight 8 + 1 · YouTube 11 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'x' and 'markets' are dropped on days the X fetch returned nothing (the
+  // sections and their nav links are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
