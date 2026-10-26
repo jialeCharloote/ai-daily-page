@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 26, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 26, 2026 · Beijing UTC+8<br>issued Oct 26, 08:27 PT · Oct 26, 10:27 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <!-- ── SPOTLIGHT ──────────────────────────────────────────────────────────── -->
+  <!-- Hero = most important Spotlight article (Official Updates or top news).   -->
+  <!-- Right grid = remaining Spotlight articles. Repeat .si for each item.     -->
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 2 · News 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/s1-sec">Anthropic files S-1 with the SEC for proposed initial public offering</a></h3>
+          <div class="hero-by">Words by <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic has filed a Form S-1 registration statement with the U.S. Securities and Exchange Commission for a proposed initial public offering, the formal first step toward listing its shares. The fetch returned only the company boilerplate rather than the announcement text, so the offering’s size, timing, exchange and any financial disclosures are not described here; the S-1 itself is public on the SEC’s EDGAR system. By a wide margin the most consequential item of the day, and the first Anthropic item in the brief since the Oct 22 Long-Term Benefit Trust news; the Anthropic feed had failed on Oct 25.</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/s1-sec">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 26, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/fanatics-streamline-fan-experience">How Fanatics and OpenAI streamline the fan experience</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI customer story: sports-merchandise retailer Fanatics uses OpenAI models to power Shop the Look, which helps fans complete a game-day outfit from a single item. Testing across roughly 30,000 MLB products showed 10% higher engagement, per the feed summary; how the feature is built and which models it uses are not described here. The only other official update today.</p>
+            <div class="si-more"><a href="https://openai.com/index/fanatics-streamline-fan-experience">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/anthropic-s-duet-gets-to-work">Anthropic’s Duet Gets to Work</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">Every’s Context Window newsletter looks at Anthropic’s Duet getting to work, alongside why Every’s Plus One gave way to a shared agent, its frontier team’s latest experiments, and Mike Taylor’s new book on DSPy. Only the preview text was fetched, so what Duet is and what the newsletter concludes about it are not described here. Carried over from Oct 25 (the fetch window spans two days); the only independent article today.</p>
+            <div class="si-more"><a href="https://every.to/context-window/anthropic-s-duet-gets-to-work">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 25, 2026</span><span class="si-fill"></span></div>
+        </div>
+              </div>
+
+    </div>
+  </section>
+
+  <!-- ── YOUTUBE PICKS ──────────────────────────────────────────────────────── -->
+  <!-- Hero = top YouTube video (most relevant or highest-quality pick).         -->
+  <!-- Right grid = remaining YouTube videos. Repeat .si for each item.         -->
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">4</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">Why OpenAI Is Racing to Make Computer Use Superhuman</a></h3>
+          <div class="hero-by">Words by <b>a16z</b></div>
+          <p class="hero-sum">a16z asks why OpenAI is racing to make computer use superhuman: computer use meaning AI agents that operate software through the screen the way a person does, rather than through APIs. Uploaded this evening Beijing time; described from the title only, so the guest and the argument are not described here. The most AI-relevant video in today’s pool.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 26, 22:30</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">AI Progress Is Smooth Until It Crosses a Threshold</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short on the idea that AI progress looks smooth until it crosses a threshold. New today; described from the title only, so the guest and the examples are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 18:30</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=19qrLchbQEc">An 86-minute guide to finding PMF | Rob Snyder (Author, The Power of Pull)</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast sits down with Rob Snyder, author of The Power of Pull, for an 86-minute guide to finding product-market fit. Yesterday’s YouTube hero, carried over; a founder topic rather than an AI one, and described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=19qrLchbQEc">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 25, 20:30</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/AXWebWeraOQ">What Happens When AI Beats The Expert?</a></h3>
+            <div class="si-by">Words by <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short asking what happens when AI beats the expert. Carried over from Oct 25; described from the title only, so which guest and which field are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/AXWebWeraOQ">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 25, 06:00</span><span class="si-fill"></span></div>
+        </div>
+              </div>
+
+    </div>
+  </section>
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <!-- ── 精选报道 ────────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 2 · 独立新闻 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/s1-sec">Anthropic 向美国证监会提交 S-1 文件，拟进行首次公开募股</a></h3>
+          <div class="hero-by">来源 <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic 已向美国证券交易委员会（SEC）提交 S-1 注册文件，拟进行首次公开募股（IPO），这是公司股票公开上市的正式第一步。抓取只返回了公司简介模板文字而非公告正文，因此发行规模、时间表、上市交易所及任何财务披露均不在此描述；S-1 文件本身可在 SEC 的 EDGAR 系统公开查阅。毫无疑问是今日最重要的一条，也是自 10 月 22 日长期利益信托新闻以来简报首次收录的 Anthropic 条目；10 月 25 日 Anthropic 源抓取曾失败。</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/s1-sec">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 26, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/fanatics-streamline-fan-experience">Fanatics 与 OpenAI 如何简化球迷体验</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 客户案例：体育周边零售商 Fanatics 用 OpenAI 模型驱动 Shop the Look 功能，帮球迷从单件商品出发搭配完整的比赛日装扮。据 RSS 摘要，在约 30,000 件 MLB 商品上的测试显示互动率提升 10%；功能如何实现、使用哪些模型不在此描述。今日另一条、也是唯一一条其他官方更新。</p>
+            <div class="si-more"><a href="https://openai.com/index/fanatics-streamline-fan-experience">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/anthropic-s-duet-gets-to-work">Anthropic 的 Duet 开始干活</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 的 Context Window 通讯关注 Anthropic 的 Duet 开始投入工作，同期还有：为什么 Every 的 Plus One 让位于一个共享智能体、其前沿团队的最新实验，以及 Mike Taylor 关于 DSPy 的新书。抓取仅含预览文字，Duet 具体是什么以及通讯的结论不在此描述。10 月 25 日已收录（抓取窗口跨两天），今日唯一一条独立文章。</p>
+            <div class="si-more"><a href="https://every.to/context-window/anthropic-s-duet-gets-to-work">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 25, 2026</span><span class="si-fill"></span></div>
+        </div>
+              </div>
+
+    </div>
+  </section>
+
+  <!-- ── YouTube 精选 ─────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">4 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">为什么 OpenAI 争分夺秒要让计算机操作能力超越人类</a></h3>
+          <div class="hero-by">来源 <b>a16z</b></div>
+          <p class="hero-sum">a16z 追问为什么 OpenAI 争分夺秒要让「计算机操作」能力超越人类：计算机操作指 AI 智能体像人一样通过屏幕操作软件，而非调用 API。北京时间今晚上传；仅依据标题描述，嘉宾和具体论点不在此描述。今日池中与 AI 最相关的一条视频。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 26, 22:30</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">AI 进步看似平滑，直到跨过某个阈值</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频：AI 进步看起来是平滑的，直到跨过某个阈值。今日新上传；仅依据标题描述，嘉宾和举例不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 18:30</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=19qrLchbQEc">寻找 PMF 的 86 分钟指南 | Rob Snyder（《The Power of Pull》作者）</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 与《The Power of Pull》作者 Rob Snyder 对谈，用 86 分钟讲如何找到产品市场契合（PMF）。昨日 YouTube 头条，今日续收；主题偏创业而非 AI，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=19qrLchbQEc">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 25, 20:30</span><span class="si-fill"></span></div>
+        </div>
+                <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/AXWebWeraOQ">当 AI 打败专家，会发生什么？</a></h3>
+            <div class="si-by">来源 <b>Lenny&#x27;s Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频：当 AI 打败了专家，会发生什么。10 月 25 日已收录；仅依据标题描述，嘉宾是谁、指哪个领域不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/AXWebWeraOQ">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 25, 06:00</span><span class="si-fill"></span></div>
+        </div>
+              </div>
+
+    </div>
+  </section>
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 26, 2026 · Spotlight 2 + 1 · YouTube 4 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'markets' is dropped from this list on days with no market posts (the
+  // section and its nav link are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
