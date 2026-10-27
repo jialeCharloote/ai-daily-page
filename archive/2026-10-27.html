@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 27, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 27, 2026 · Beijing UTC+8<br>issued Oct 27, 08:23 PT · Oct 27, 10:23 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <!-- ── SPOTLIGHT ──────────────────────────────────────────────────────────── -->
+  <!-- Hero = most important Spotlight article (Official Updates or top news).   -->
+  <!-- Right grid = remaining Spotlight articles. Repeat .si for each item.     -->
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 8 · News 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://openai.com/index/introducing-gpt-6-1-terra">Introducing GPT-6.1 Terra</a></h3>
+          <div class="hero-by">Words by <b>OpenAI</b></div>
+          <p class="hero-sum">OpenAI introduces GPT-6.1 Terra, which the feed describes as “bringing fast and capable computer use to everyone”: computer use meaning an agent that operates software through the screen the way a person does, rather than through APIs. The fetch returned only that one-line summary, so pricing, availability, benchmark results and how Terra relates to GPT-6.1 Sol are not described here. It lands the day after a16z’s video asked why OpenAI is racing to make computer use superhuman, and it is the most consequential of today’s seven new OpenAI posts.</p>
+          <div class="hero-more"><a href="https://openai.com/index/introducing-gpt-6-1-terra">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 26, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.anthropic.com/news/s1-sec">Anthropic files S-1 with the SEC for proposed initial public offering</a></h3>
+            <div class="si-by">Words by <b>Anthropic</b></div>
+            <p class="si-sum">Anthropic has filed a Form S-1 registration statement with the U.S. Securities and Exchange Commission for a proposed initial public offering. Yesterday’s lead, carried over: only the company boilerplate was fetched, so the offering’s size, timing and exchange are not described here; Every’s Napkin Math column below reads the filing itself.</p>
+            <div class="si-more"><a href="https://www.anthropic.com/news/s1-sec">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/building-scientific-understanding-with-academic-communities">Working with academic communities to build scientific understanding</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI shares model results on three open problems, the Kakeya conjecture, the Exponential Time Hypothesis and quantum chromodynamics, and describes how academic researchers can verify and build on them. Which models produced the results and how far each claim has been checked are not described here, so treat them as results to be verified rather than settled findings.</p>
+            <div class="si-more"><a href="https://openai.com/index/building-scientific-understanding-with-academic-communities">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/gpt-6-1-sol-coderabbit-code-security">GPT-6.1 Sol helps CodeRabbit strengthen security across complex codebases</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story: code-review company CodeRabbit uses GPT-6.1 Sol to investigate security risks across complex codebases, with a security agent that helps developers review findings and proposed fixes. One of two GPT-6.1 posts today; what distinguishes Sol from Terra is not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/gpt-6-1-sol-coderabbit-code-security">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/chatgpt-expanding-world-of-work">ChatGPT’s expanding world of work</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI publishes Signals data on 165 work activities across nearly 100 countries, showing how people use ChatGPT for work and how that usage changes over time. The headline findings are not in the feed summary, so the actual numbers are not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/chatgpt-expanding-world-of-work">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/openai-cut-incident-investigation">How Ultrafast cut incident investigation from hours to minutes at OpenAI</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI engineers describe using Codex Ultrafast to investigate production incidents in minutes rather than hours, with examples from security analysis, code refactoring and daily workflows. An internal-use post rather than a product launch; what Ultrafast is, and whether it is available to customers, is not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/openai-cut-incident-investigation">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/greptile-code-review-codex-astra">Greptile takes bug detection beyond code review with GPT-6 Astra</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story, and the only post dated today: Greptile uses GPT-6 Astra to test user workflows beyond static code review, Daybreak to strengthen security, and Codex to reduce rework. The third OpenAI model name in today’s feed, after Sol and Terra; how the three relate is not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/greptile-code-review-codex-astra">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/fanatics-streamline-fan-experience">How Fanatics and OpenAI streamline the fan experience</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story, carried over from yesterday: sports-merchandise retailer Fanatics uses OpenAI models to power Shop the Look, which helps fans complete a game-day outfit from a single item. Testing across roughly 30,000 MLB products showed 10% higher engagement, per the feed summary.</p>
+            <div class="si-more"><a href="https://openai.com/index/fanatics-streamline-fan-experience">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">Is Anthropic Worth $2 Trillion?</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">Every’s Napkin Math column reads Anthropic’s IPO filing and asks whether the company is worth $2 trillion: the filing reveals a remarkable business, the preview says, and also how much has to go right to justify that price. Only the preview text was fetched, so the revenue figures and the valuation math are not described here. The only independent article today, and the natural companion to the S-1 item.</p>
+            <div class="si-more"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YOUTUBE PICKS ──────────────────────────────────────────────────────── -->
+  <!-- Hero = top YouTube video (most relevant or highest-quality pick).         -->
+  <!-- Right grid = remaining YouTube videos. Repeat .si for each item.         -->
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">8</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">The $1,000/hour 1-person AI business</a></h3>
+          <div class="hero-by">Words by <b>Greg Isenberg</b></div>
+          <p class="hero-sum">Greg Isenberg on the $1,000-an-hour one-person AI business: a full-length episode, uploaded early this morning Beijing time. Described from the title only, so which business and which tools are not described here. The most actionable video in today’s pool, and the hero.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 27, 02:35</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">The AI School Kids Love More Than Vacation | Alpha School’s Joe Liemandt</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z talks with Alpha School’s Joe Liemandt about an AI-driven school its students reportedly love more than vacation. Uploaded tonight Beijing time; described from the title only, so the school’s model and the evidence behind the claim are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">Watch how I use @openai Dots AI agents in chatgpt to make my life &amp; business better</a></h3>
+            <div class="si-by">Words by <b>Greg Isenberg</b></div>
+            <p class="si-sum">A Greg Isenberg short showing how he uses OpenAI’s Dots AI agents inside ChatGPT for his life and business. Tagged #chatgpt_partner, so treat it as sponsored content; what Dots agents are is not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">Sell These 4 Claude Systems for $3700+ Right Now (as a beginner)</a></h3>
+            <div class="si-by">Words by <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk on four Claude-based systems he says beginners can sell for $3,700 or more. Uploaded late tonight Beijing time; described from the title only, so the four systems are not described here. A sales-pitch framing, as usual for this channel.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 23:12</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">Fixing the $300 Billion Medical Billing Problem</a></h3>
+            <div class="si-by">Words by <b>Y Combinator</b></div>
+            <p class="si-sum">Y Combinator on fixing the $300 billion medical billing problem, presumably a YC company applying AI to billing. Uploaded tonight Beijing time; described from the title only, so the company and the approach are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">Why OpenAI Is Racing to Make Computer Use Superhuman</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z asks why OpenAI is racing to make computer use superhuman. Yesterday’s YouTube hero, carried over, and newly relevant today: the GPT-6.1 Terra launch above is pitched exactly as fast, capable computer use for everyone.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">AI Progress Is Smooth Until It Crosses a Threshold</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short on the idea that AI progress looks smooth until it crosses a threshold. Carried over from Oct 26; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/c7bH0PVMEZs">DoorDash’s first version of the company</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z short on the first version of DoorDash. Not an AI item; included because it is in today’s pool, and described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/c7bH0PVMEZs">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 23:49</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <!-- ── 精选报道 ────────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 8 · 独立新闻 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://openai.com/index/introducing-gpt-6-1-terra">OpenAI 发布 GPT-6.1 Terra</a></h3>
+          <div class="hero-by">来源 <b>OpenAI</b></div>
+          <p class="hero-sum">OpenAI 发布 GPT-6.1 Terra，RSS 摘要称其“让每个人都能用上快速且强大的计算机操作能力”：计算机操作指智能体像人一样通过屏幕操作软件，而非调用 API。抓取只返回了这一句摘要，定价、开放范围、基准测试结果以及 Terra 与 GPT-6.1 Sol 的关系均不在此描述。发布正好在 a16z 追问“为什么 OpenAI 争分夺秒要让计算机操作超越人类”的视频之后一天，是今日 7 条 OpenAI 新帖中最重要的一条。</p>
+          <div class="hero-more"><a href="https://openai.com/index/introducing-gpt-6-1-terra">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 26, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.anthropic.com/news/s1-sec">Anthropic 向美国证监会提交 S-1 文件，拟进行首次公开募股</a></h3>
+            <div class="si-by">来源 <b>Anthropic</b></div>
+            <p class="si-sum">Anthropic 已向美国证监会（SEC）提交 S-1 注册文件，拟进行首次公开募股（IPO）。昨日头条，今日续收：抓取只返回了公司简介模板文字，发行规模、时间表和交易所不在此描述；下方 Every 的 Napkin Math 专栏直接解读了这份文件。</p>
+            <div class="si-more"><a href="https://www.anthropic.com/news/s1-sec">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/building-scientific-understanding-with-academic-communities">与学术界合作构建科学理解</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 公布模型在三个公开问题上的结果：Kakeya 猜想、指数时间假设（ETH）和量子色动力学（QCD），并说明学术研究者如何验证并在此基础上推进。哪些模型得出这些结果、每项主张已被验证到何种程度不在此描述，应视为待验证的结果而非定论。</p>
+            <div class="si-more"><a href="https://openai.com/index/building-scientific-understanding-with-academic-communities">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/gpt-6-1-sol-coderabbit-code-security">GPT-6.1 Sol 帮助 CodeRabbit 加固复杂代码库的安全</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例：代码审查公司 CodeRabbit 用 GPT-6.1 Sol 在复杂代码库中排查安全风险，其安全智能体帮助开发者审阅发现的问题和建议的修复。今日两条 GPT-6.1 相关帖子之一；Sol 与 Terra 的区别不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/gpt-6-1-sol-coderabbit-code-security">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/chatgpt-expanding-world-of-work">ChatGPT 不断扩展的工作版图</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 发布 Signals 数据，覆盖近 100 个国家的 165 种工作活动，展示人们如何用 ChatGPT 工作以及用法随时间的变化。RSS 摘要未包含核心结论，具体数字不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/chatgpt-expanding-world-of-work">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/openai-cut-incident-investigation">Ultrafast 如何把 OpenAI 的事故排查从数小时缩短到数分钟</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 工程师讲述如何用 Codex Ultrafast 把生产事故排查从数小时缩短到数分钟，并举了安全分析、代码重构和日常工作流的例子。属内部用法分享而非产品发布；Ultrafast 是什么、是否对外开放不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/openai-cut-incident-investigation">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/greptile-code-review-codex-astra">Greptile 用 GPT-6 Astra 把缺陷检测扩展到代码审查之外</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例，也是唯一一条日期为今天的帖子：Greptile 用 GPT-6 Astra 测试用户工作流（超出静态代码审查），用 Daybreak 加固安全，用 Codex 减少返工。今日 RSS 中出现的第三个 OpenAI 模型名（继 Sol、Terra 之后），三者关系不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/greptile-code-review-codex-astra">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/fanatics-streamline-fan-experience">Fanatics 与 OpenAI 如何简化球迷体验</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例，昨日续收：体育周边零售商 Fanatics 用 OpenAI 模型驱动 Shop the Look 功能，帮球迷从单件商品出发搭配完整的比赛日装扮。据 RSS 摘要，在约 30,000 件 MLB 商品上的测试显示互动率提升 10%。</p>
+            <div class="si-more"><a href="https://openai.com/index/fanatics-streamline-fan-experience">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">Anthropic 值 2 万亿美元吗？</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 的 Napkin Math 专栏解读 Anthropic 的 IPO 文件，追问这家公司是否值 2 万亿美元：预览文字称文件揭示了一家非凡的企业，也揭示了要撑起这个价格有多少事必须做对。抓取仅含预览文字，营收数字和估值推算不在此描述。今日唯一一条独立文章，与 S-1 条目正好配套。</p>
+            <div class="si-more"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YouTube 精选 ─────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">8 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">每小时 1,000 美元的一人 AI 生意</a></h3>
+          <div class="hero-by">来源 <b>Greg Isenberg</b></div>
+          <p class="hero-sum">Greg Isenberg 讲“每小时 1,000 美元的一人 AI 生意”：完整长片，北京时间今日凌晨上传。仅依据标题描述，具体是什么生意、用什么工具不在此描述。今日池中最具可操作性的一条，也是今日头条。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 27, 02:35</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">孩子们比放假还爱的 AI 学校 | Alpha School 的 Joe Liemandt</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 对谈 Alpha School 的 Joe Liemandt，谈一所据称学生比放假还爱的 AI 驱动学校。北京时间今晚上传；仅依据标题描述，学校的运作模式和该说法的依据不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">看我如何在 ChatGPT 里用 OpenAI 的 Dots AI 智能体改善生活与生意</a></h3>
+            <div class="si-by">来源 <b>Greg Isenberg</b></div>
+            <p class="si-sum">Greg Isenberg 短视频，展示他如何在 ChatGPT 里用 OpenAI 的 Dots AI 智能体改善生活与生意。带 #chatgpt_partner 标签，应视为合作推广内容；Dots 智能体是什么不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">新手现在就能卖 3,700 美元以上的 4 套 Claude 系统</a></h3>
+            <div class="si-by">来源 <b>Nate Herk</b></div>
+            <p class="si-sum">Nate Herk 讲四套基于 Claude 的系统，称新手现在就能卖到 3,700 美元以上。北京时间今晚深夜上传；仅依据标题描述，四套系统具体是什么不在此描述。一贯的带货式标题。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 23:12</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">解决 3,000 亿美元的医疗账单难题</a></h3>
+            <div class="si-by">来源 <b>Y Combinator</b></div>
+            <p class="si-sum">Y Combinator 讲如何解决 3,000 亿美元规模的医疗账单问题，推测是一家 YC 公司用 AI 做账单处理。北京时间今晚上传；仅依据标题描述，公司和方法不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">为什么 OpenAI 争分夺秒要让计算机操作能力超越人类</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 追问为什么 OpenAI 争分夺秒要让计算机操作能力超越人类。昨日 YouTube 头条，今日续收，且今天格外应景：上方 GPT-6.1 Terra 的发布正是以“让每个人都能用上快速强大的计算机操作”为卖点。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=9v42ZOdiBJY">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">AI 进步看似平滑，直到跨过某个阈值</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频：AI 进步看起来是平滑的，直到跨过某个阈值。10 月 26 日已收录；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ucVpG3ekHOw">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/c7bH0PVMEZs">DoorDash 最初的公司形态</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 短视频：DoorDash 最初的版本。非 AI 内容，因在今日池中而收录，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/c7bH0PVMEZs">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 26, 23:49</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 27, 2026 · Spotlight 8 + 1 · YouTube 8 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'markets' is dropped from this list on days with no market posts (the
+  // section and its nav link are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
