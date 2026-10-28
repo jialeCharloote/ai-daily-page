@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 28, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 28, 2026 · Beijing UTC+8<br>issued Oct 28, 09:21 PT · Oct 28, 11:21 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <!-- ── SPOTLIGHT ──────────────────────────────────────────────────────────── -->
+  <!-- Hero = most important Spotlight article (Official Updates or top news).   -->
+  <!-- Right grid = remaining Spotlight articles. Repeat .si for each item.     -->
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 6 · News 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/expanding-partnership-gsa">Expanding our partnership with GSA to bring Claude to all levels of government</a></h3>
+          <div class="hero-by">Words by <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic says it is expanding its partnership with the U.S. General Services Administration, the federal government’s procurement agency, to bring Claude to all levels of government, which by the title’s wording means state and local agencies as well as federal ones. Only the company boilerplate was fetched, so the contract terms, pricing and which Claude products are covered are not described here. It is the only Anthropic post today and the most consequential of the six official updates: a distribution deal with the public sector lands two days after the S-1 filing.</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/expanding-partnership-gsa">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 27, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/oracle-apps-in-chatgpt">OpenAI expands partnership with Oracle to bring its apps to ChatGPT</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI and Oracle are expanding their partnership to bring Oracle’s business applications and AI agents into ChatGPT, and to power new Oracle offerings with OpenAI models. The feed summary does not say which Oracle apps come first or when, so that is not described here. Together with the GSA item above, today’s theme is distribution: both labs are selling through institutions that already own the customer relationship.</p>
+            <div class="si-more"><a href="https://openai.com/index/oracle-apps-in-chatgpt">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/retell-ai">Retell uses OpenAI models to help power 100M monthly calls</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story: voice-agent company Retell runs about 100 million calls a month on OpenAI models. GPT-6 Astra tops Retell’s own voice-agent benchmark, per the feed summary, and Codex helped the company reach a $1.6 million annual revenue run rate per employee. Both figures come from the customer, not from an independent test.</p>
+            <div class="si-more"><a href="https://openai.com/index/retell-ai">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/check-point-daybreak">How Check Point accelerates vulnerability research with Daybreak</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story: security vendor Check Point uses OpenAI Daybreak to speed up the research behind new protections, so its analysts turn vulnerability intelligence into customer defenses faster. The second Daybreak customer story in a week after Cloudflare on Oct 22; what Daybreak is, beyond a security-focused offering, is not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/check-point-daybreak">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/legora-agentic-operating-system-for-legal-work">Legora is building the agentic operating system for legal work</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story, and the only post dated today: legal-tech company Legora uses OpenAI models, ChatGPT and Codex to accelerate legal workflows, expand contract analysis and free lawyers for higher-value work. “Agentic operating system” is Legora’s framing; the feed gives no usage numbers, so none are described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/legora-agentic-operating-system-for-legal-work">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/greptile-code-review-codex-astra">Greptile takes bug detection beyond code review with GPT-6 Astra</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story, carried over from yesterday: Greptile uses GPT-6 Astra to test user workflows beyond static code review, Daybreak to strengthen security, and Codex to reduce rework. Four of today’s five OpenAI posts are customer stories; no product launch today.</p>
+            <div class="si-more"><a href="https://openai.com/index/greptile-code-review-codex-astra">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">Is Anthropic Worth $2 Trillion?</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">Every’s Napkin Math column reads Anthropic’s IPO filing and asks whether the company is worth $2 trillion: the filing reveals a remarkable business, the preview says, and also how much has to go right to justify that price. Carried over from yesterday and still the only independent article; only the preview text was fetched, so the revenue figures and the valuation math are not described here.</p>
+            <div class="si-more"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YOUTUBE PICKS ──────────────────────────────────────────────────────── -->
+  <!-- Hero = top YouTube video (most relevant or highest-quality pick).         -->
+  <!-- Right grid = remaining YouTube videos. Repeat .si for each item.         -->
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">9</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">3 Claude Systems That Sell For $3000+ Right Now (With PROOF)</a></h3>
+          <div class="hero-by">Words by <b>Nate Herk</b></div>
+          <p class="hero-sum">Nate Herk on three Claude-based systems he says are selling for $3,000 or more right now, “with proof”. The video was retitled since yesterday (it was “four systems for $3,700+”), which is why it reads as new. Described from the title only, so the three systems are not described here. Today’s hero because every other fresh upload is off-topic for AI.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 27, 23:12</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">The $1,000/hour 1-person AI business</a></h3>
+            <div class="si-by">Words by <b>Greg Isenberg</b></div>
+            <p class="si-sum">Greg Isenberg on the $1,000-an-hour one-person AI business. Yesterday’s hero, carried over; described from the title only, so which business and which tools are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 02:35</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">Mark Cuban’s Plan to Make Healthcare Affordable</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z talks with Mark Cuban about his plan to make healthcare affordable, presumably around Cost Plus Drugs. Uploaded tonight Beijing time; described from the title only, and whether AI figures in the plan is not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">The AI Billing Stack for Healthcare</a></h3>
+            <div class="si-by">Words by <b>Y Combinator</b></div>
+            <p class="si-sum">Y Combinator on the AI billing stack for healthcare. Carried over from yesterday under a new title (it was “Fixing the $300 Billion Medical Billing Problem”); described from the title only, so the companies and the approach are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">The AI School Kids Love More Than Vacation | Alpha School’s Joe Liemandt</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z talks with Alpha School’s Joe Liemandt about an AI-driven school its students reportedly love more than vacation. Carried over from yesterday; described from the title only, so the school’s model and the evidence behind the claim are not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">The Design Partner Trap</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short on the “design partner trap”, the startup pattern of building for a few early customers so closely that the product never generalizes. Uploaded this evening Beijing time; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2HZPSYxws50">Does your product need to be 10x better?</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short asking whether a product really needs to be 10x better than the incumbent. Uploaded this morning Beijing time; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2HZPSYxws50">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">Watch how I use @openai Dots AI agents in chatgpt to make my life &amp; business better</a></h3>
+            <div class="si-by">Words by <b>Greg Isenberg</b></div>
+            <p class="si-sum">A Greg Isenberg short showing how he uses OpenAI’s Dots AI agents inside ChatGPT. Carried over; tagged #chatgpt_partner, so treat it as sponsored content. What Dots agents are is not described here.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">European Defense Sovereignty Starts in the Factory: Stark’s Uwe Horstmann and Johannes Schaback</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital talks with Stark’s Uwe Horstmann and Johannes Schaback about European defense sovereignty starting in the factory. A defense-manufacturing item rather than an AI one; included because it is in today’s pool, and described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 20:00</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <!-- ── 精选报道 ────────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 6 · 独立新闻 1</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/expanding-partnership-gsa">Anthropic 扩大与 GSA 的合作，把 Claude 带到各级政府</a></h3>
+          <div class="hero-by">来源 <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic 宣布扩大与美国总务管理局（GSA，联邦政府的采购机构）的合作，把 Claude 带到“各级政府”，按标题措辞即联邦之外还包括州和地方机构。抓取只返回了公司简介模板文字，合同条款、定价和覆盖哪些 Claude 产品均不在此描述。这是今日唯一的 Anthropic 帖子，也是 6 条官方动态中最重要的一条：一笔面向公共部门的分发协议，紧随两天前的 S-1 文件之后。</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/expanding-partnership-gsa">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 27, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/oracle-apps-in-chatgpt">OpenAI 扩大与 Oracle 的合作，把 Oracle 应用引入 ChatGPT</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 与 Oracle 扩大合作，把 Oracle 的企业应用和 AI 智能体引入 ChatGPT，并用 OpenAI 模型驱动 Oracle 的新产品。RSS 摘要未说明哪些 Oracle 应用先上线、何时上线，故不在此描述。与上方 GSA 条目合看，今日主题是分发渠道：两家实验室都在借助已掌握客户关系的机构卖产品。</p>
+            <div class="si-more"><a href="https://openai.com/index/oracle-apps-in-chatgpt">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/retell-ai">Retell 用 OpenAI 模型支撑每月 1 亿通电话</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例：语音智能体公司 Retell 每月约 1 亿通电话跑在 OpenAI 模型上。据 RSS 摘要，GPT-6 Astra 在 Retell 自家的语音智能体基准上排名第一，Codex 则帮助公司把人均年收入运行率做到 160 万美元。两个数字均出自客户本身，而非独立测试。</p>
+            <div class="si-more"><a href="https://openai.com/index/retell-ai">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/check-point-daybreak">Check Point 如何用 Daybreak 加速漏洞研究</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例：安全厂商 Check Point 用 OpenAI Daybreak 加速新防护背后的研究，让分析师更快把漏洞情报转化为客户防御。继 10 月 22 日 Cloudflare 之后一周内第二个 Daybreak 客户案例；Daybreak 除了是面向安全的产品之外具体是什么，不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/check-point-daybreak">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/legora-agentic-operating-system-for-legal-work">Legora 正在打造法律工作的智能体操作系统</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例，也是唯一一条日期为今天的帖子：法律科技公司 Legora 用 OpenAI 模型、ChatGPT 和 Codex 加速法律工作流、扩大合同分析范围，让律师腾出精力做更高价值的工作。“智能体操作系统”是 Legora 自己的说法；RSS 未给出使用数据，故不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/legora-agentic-operating-system-for-legal-work">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/greptile-code-review-codex-astra">Greptile 用 GPT-6 Astra 把缺陷检测扩展到代码审查之外</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例，昨日续收：Greptile 用 GPT-6 Astra 测试用户工作流（超出静态代码审查），用 Daybreak 加固安全，用 Codex 减少返工。今日 5 条 OpenAI 帖子中 4 条是客户案例，没有产品发布。</p>
+            <div class="si-more"><a href="https://openai.com/index/greptile-code-review-codex-astra">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">Anthropic 值 2 万亿美元吗？</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 的 Napkin Math 专栏解读 Anthropic 的 IPO 文件，追问这家公司是否值 2 万亿美元：预览文字称文件揭示了一家非凡的企业，也揭示了要撑起这个价格有多少事必须做对。昨日续收，仍是唯一一条独立文章；抓取仅含预览文字，营收数字和估值推算不在此描述。</p>
+            <div class="si-more"><a href="https://every.to/napkin-math/is-anthropic-worth-2-trillion">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YouTube 精选 ─────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">9 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">现在就能卖 3,000 美元以上的 3 套 Claude 系统（附证据）</a></h3>
+          <div class="hero-by">来源 <b>Nate Herk</b></div>
+          <p class="hero-sum">Nate Herk 讲三套基于 Claude 的系统，称现在就能卖到 3,000 美元以上，并“附证据”。视频自昨日起改了标题（原为“四套系统 3,700 美元以上”），所以看起来像新片。仅依据标题描述，三套系统具体是什么不在此描述。今日头条，因为其余新上传的视频都不以 AI 为主题。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=BQJRLZ2q_Ns">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 27, 23:12</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">每小时 1,000 美元的一人 AI 生意</a></h3>
+            <div class="si-by">来源 <b>Greg Isenberg</b></div>
+            <p class="si-sum">Greg Isenberg 讲“每小时 1,000 美元的一人 AI 生意”。昨日头条，今日续收；仅依据标题描述，具体是什么生意、用什么工具不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=HKNpCwG3nlc">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 02:35</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">Mark Cuban 让医疗变得可负担的计划</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 对谈 Mark Cuban，谈他让医疗变得可负担的计划，推测围绕 Cost Plus Drugs。北京时间今晚上传；仅依据标题描述，计划中是否涉及 AI 不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">医疗行业的 AI 账单技术栈</a></h3>
+            <div class="si-by">来源 <b>Y Combinator</b></div>
+            <p class="si-sum">Y Combinator 讲医疗行业的 AI 账单技术栈。昨日已收录，今日改了标题（原为“解决 3,000 亿美元的医疗账单难题”）；仅依据标题描述，涉及的公司和方法不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=e1NQKzBXfM8">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">孩子们比放假还爱的 AI 学校 | Alpha School 的 Joe Liemandt</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 对谈 Alpha School 的 Joe Liemandt，谈一所据称学生比放假还爱的 AI 驱动学校。昨日续收；仅依据标题描述，学校的运作模式和该说法的依据不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=T4u2FoIm3pw">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">设计合作伙伴陷阱</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频，讲“设计合作伙伴陷阱”：创业公司为少数早期客户贴身定制，结果产品始终无法通用。北京时间今晚上传；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2HZPSYxws50">你的产品需要好 10 倍吗？</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频，追问产品是否真的需要比现有方案好 10 倍。北京时间今日早上上传；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2HZPSYxws50">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">看我如何在 ChatGPT 里用 OpenAI 的 Dots AI 智能体改善生活与生意</a></h3>
+            <div class="si-by">来源 <b>Greg Isenberg</b></div>
+            <p class="si-sum">Greg Isenberg 短视频，展示他如何在 ChatGPT 里用 OpenAI 的 Dots AI 智能体。续收；带 #chatgpt_partner 标签，应视为合作推广内容。Dots 智能体是什么不在此描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/35sh2FkQn-k">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 27, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">欧洲国防自主从工厂开始：Stark 的 Uwe Horstmann 与 Johannes Schaback</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 对谈 Stark 的 Uwe Horstmann 和 Johannes Schaback，谈欧洲国防自主要从工厂做起。属国防制造而非 AI 内容，因在今日池中而收录，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 20:00</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 28, 2026 · Spotlight 6 + 1 · YouTube 9 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'markets' is dropped from this list on days with no market posts (the
+  // section and its nav link are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
