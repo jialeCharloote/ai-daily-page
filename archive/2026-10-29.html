@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Daily — October 29, 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #fff7f4;
+      --text:      #121212;
+      --muted:     #121212;   /* all text black except nav-bar override below */
+      --border:    #1d1d1d;   /* all lines black */
+      --line:      #1d1d1d;
+      --brown:     #121212;   /* article summaries black */
+      --blue:      #363b8f;
+      --red:       #e20a39;
+      --gold:      #f4d06f;
+      --gold-dark: #4c3906;
+      --sage:      #cee0dc;
+      --sage-dark: #073429;
+      --serif: 'Spectral', 'Songti SC', Georgia, serif;
+      --mono:  'JetBrains Mono', 'Courier New', monospace;
+      --pad: 40px;
+      --max: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--serif); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    /* ── STICKY HEADER (masthead + nav) ── */
+    .site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+    .masthead { border-top: 3px solid var(--text); }
+    .mh { display: flex; justify-content: space-between; align-items: flex-end; padding: 16px 0 14px; }
+    .mh-eye { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .mh-name { font-family: 'GT America Mono', 'GT America Mono Light', var(--mono); font-size: 28px; font-weight: 300; letter-spacing: 0.04em; line-height: 1; }
+    .mh-date { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--muted); text-align: right; line-height: 1.6; }
+    .mh-rule { border: none; border-bottom: 1px solid var(--border); }
+
+    /* ── NAVIGATION: section anchors left + language toggles right ── */
+    /* Nav bar restores grey for font only; lines remain black */
+    .nav-bar { --muted: #888880; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .sec-toggles { display: flex; }
+    .sec-toggle { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; text-decoration: none; border-right: 1px solid var(--border); display: inline-block; transition: background 0.1s, color 0.1s; }
+    .sec-toggle:last-child { border-right: none; }
+    .sec-toggle.on { color: var(--text); font-weight: 500; }
+    .sec-toggle:hover { color: var(--text); background: var(--gold); }
+    .lang-toggles { display: flex; }
+    .tab { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); padding: 10px 16px; cursor: pointer; border: none; background: none; border-left: 1px solid var(--border); transition: background 0.1s, color 0.1s; }
+    .tab.on { color: var(--text); }
+    .tab:hover { background: var(--gold); color: var(--text); }
+    .panel { display: none; padding-top: 36px; padding-bottom: 56px; }
+    .panel.on { display: block; }
+
+    /* ── SECTION SCROLL OFFSET (clears sticky header ~110px) ── */
+    .art-sec { scroll-margin-top: 115px; }
+
+    /* ── SECTION LABEL ── */
+    .sec { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .sec-dot { width: 8px; height: 8px; flex-shrink: 0; }
+    .sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── SECTION WRAPPER ── */
+    .art-sec { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .art-sec.last { border-bottom: none; }
+
+    /* ══ SPOTLIGHT / YOUTUBE PICKS — sticky hero left + 2-col card grid right ══
+       spotlight.jpg and youtubepicks.jpg are fixed images stored alongside this template. */
+    .spot { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+    .spot-hero { display: flex; flex-direction: column; border: 1px solid var(--line); overflow: hidden; position: sticky; top: 0; }
+    .hero-img { width: 100%; height: 280px; object-fit: cover; display: block; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+    .hero-cap { padding: 24px 28px 22px; display: flex; flex-direction: column; flex: 0 0 auto; }
+    .hero-t { font-family: var(--serif); font-size: 28px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; margin: 0; }
+    .hero-t a { color: inherit; }
+    .hero-by { font-family: var(--mono); font-size: 11px; font-weight: 400; margin-top: 9px; }
+    .hero-by b { font-weight: 700; }
+    .hero-sum { font-family: var(--serif); font-size: 14px; line-height: 1.55; margin-top: 14px; }
+    .hero-more { font-family: var(--serif); font-weight: 700; font-size: 13px; text-align: right; margin-top: auto; padding-top: 16px; }
+    .hero-more span { font-weight: 400; }
+    .hero-foot { display: flex; }
+    .hero-tag-cell { font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.02em; padding: 7px 14px; min-width: 30%; }
+
+    /* Light text on blue caption (Spotlight) */
+    .h-lt .hero-cap      { background: var(--blue); }
+    .h-lt .hero-t        { color: #fff7f4; }
+    .h-lt .hero-by       { color: rgba(255,247,244,0.60); }
+    .h-lt .hero-by b     { color: #fff7f4; }
+    .h-lt .hero-sum      { color: rgba(255,247,244,0.80); }
+    .h-lt .hero-more a   { color: #fff7f4; }
+    .h-lt .hero-foot     { background: var(--blue); border-top: 1px solid rgba(255,247,244,0.28); }
+    .h-lt .hero-tag-cell { color: rgba(255,247,244,0.85); border-right: 1px solid rgba(255,247,244,0.28); }
+
+    /* Dark text on gold caption (YouTube Picks) */
+    .h-dk .hero-cap      { background: var(--gold); }
+    .h-dk .hero-t        { color: var(--gold-dark); }
+    .h-dk .hero-by       { color: rgba(76,57,6,0.60); }
+    .h-dk .hero-by b     { color: var(--gold-dark); }
+    .h-dk .hero-sum      { color: rgba(76,57,6,0.80); }
+    .h-dk .hero-more a   { color: var(--gold-dark); }
+    .h-dk .hero-foot     { background: var(--gold); border-top: 1px solid rgba(76,57,6,0.28); }
+    .h-dk .hero-tag-cell { color: var(--gold-dark); border-right: 1px solid rgba(76,57,6,0.28); }
+
+    /* ── ARTICLE CARDS (right grid) ── */
+    .spot-r { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .si { display: flex; flex-direction: column; border: 1px solid var(--line); background: transparent; }
+    .si-body { padding: 18px 18px 16px; display: flex; flex-direction: column; flex: 1; min-height: 150px; }
+    .si-title { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.16; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+    .si-title a { color: inherit; }
+    .si-by { font-family: var(--mono); font-size: 10.5px; font-weight: 400; color: var(--muted); margin-top: 7px; }
+    .si-by b { font-weight: 700; color: var(--text); }
+    .si-sum { font-family: var(--serif); font-size: 12.5px; line-height: 1.5; color: var(--brown); margin-top: 12px; }
+    .si-more { font-family: var(--serif); font-weight: 700; font-size: 12.5px; text-align: right; margin-top: auto; padding-top: 14px; }
+    .si-more a { color: var(--text); }
+    .si-foot { display: flex; border-top: 1px solid var(--line); }
+    .si-tag { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text); letter-spacing: 0.02em; padding: 6px 12px; border-right: 1px solid var(--line); min-width: 34%; }
+    .si-fill { flex: 1; }
+
+    /* ── X.COM — vertical feed ── */
+    .x-feed { display: flex; flex-direction: column; }
+    .x-row { display: flex; gap: 28px; padding: 18px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .x-row:first-child { padding-top: 0; }
+    .x-row:last-child { border-bottom: none; }
+    .x-meta { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 3px; }
+    .x-handle { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--sage-dark); }
+    .x-stats { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+    .x-content { flex: 1; }
+    .x-body { font-family: var(--serif); font-size: 13.5px; line-height: 1.58; }
+    .x-lnk { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--sage-dark); margin-top: 7px; display: inline-block; }
+
+    /* ── FOOTER ── */
+    .footer { border-top: 3px solid var(--text); padding: 20px 0; }
+    .fi { display: flex; justify-content: space-between; align-items: center; }
+    .f-brand { font-family: var(--serif); font-size: 14px; font-weight: 600; }
+    .f-credit { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <header class="masthead">
+    <div class="wrap">
+      <div class="mh">
+        <div>
+          <div class="mh-eye">Daily Intelligence</div>
+          <h1 class="mh-name">AI Daily</h1>
+        </div>
+        <div class="mh-date">October 29, 2026 · Beijing UTC+8<br>issued Oct 29, 08:35 PT · Oct 29, 10:35 CT</div>
+      </div>
+    </div>
+    <hr class="mh-rule">
+  </header>
+
+  <div class="wrap">
+    <div class="nav-bar">
+      <div class="sec-toggles">
+        <a class="sec-toggle on" id="sec-spotlight" href="#sec-anchor-spotlight">Spotlight</a>
+        <a class="sec-toggle" id="sec-youtube" href="#sec-anchor-youtube">YouTube Picks</a>
+      </div>
+      <div class="lang-toggles">
+        <button class="tab on" id="tab-en" onclick="sw('en')">English</button>
+        <button class="tab"    id="tab-cn" onclick="sw('cn')">中文</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════ ENGLISH ══════════════════════════════════ -->
+<div class="panel on" id="panel-en">
+<div class="wrap">
+
+  <!-- ── SPOTLIGHT ──────────────────────────────────────────────────────────── -->
+  <!-- Hero = most important Spotlight article (Official Updates or top news).   -->
+  <!-- Right grid = remaining Spotlight articles. Repeat .si for each item.     -->
+  <section class="art-sec sec-spotlight" id="sec-anchor-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      Spotlight
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">Official 4 · News 2</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions">AI for Science expands to foundations and institutions</a></h3>
+          <div class="hero-by">Words by <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic is expanding its AI for Science program and highlights 20 scientific foundations, institutions and research groups from around the world that it has partnered with. The feed summary names the count but not the partners, the form of support (credits, model access or funding) or the fields covered, so those are not described here. It is the only Anthropic post today and leads because it is the one official update about putting models to work on research rather than about distribution.</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions">Read more <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 28, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/openai-servicenow-partnership-expansion">OpenAI and ServiceNow expand partnership across enterprise workflows</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI and ServiceNow are expanding their partnership in both directions: OpenAI models and agents go into ServiceNow, and ServiceNow workflows become available inside ChatGPT and Codex. The feed does not give timing, pricing or which workflows come first. It is the third enterprise distribution deal in three days after Anthropic’s GSA expansion and OpenAI’s Oracle expansion; both labs are now selling through the software vendors that already sit in large companies.</p>
+            <div class="si-more"><a href="https://openai.com/index/openai-servicenow-partnership-expansion">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/the-future-of-the-firm">The future of the firm</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">An OpenAI essay on how AI might enter the org chart “beneath, beside, and between us”, by the feed’s one-line summary: as a layer under employees, as a peer, and as the connective tissue between teams. A rare non-product, non-customer post from OpenAI; the author and the argument’s specifics were not fetched, so they are not described here.</p>
+            <div class="si-more"><a href="https://openai.com/index/the-future-of-the-firm">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/legora">Legora is building the agentic operating system for legal work</a></h3>
+            <div class="si-by">Words by <b>OpenAI</b></div>
+            <p class="si-sum">Customer story, carried over from yesterday under a shortened URL: legal-tech company Legora uses OpenAI models, ChatGPT and Codex to accelerate legal workflows, expand contract analysis and free lawyers for higher-value work. “Agentic operating system” is Legora’s framing; the feed gives no usage numbers.</p>
+            <div class="si-more"><a href="https://openai.com/index/legora">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/every-model-has-a-six-month-shelf-life-now">Every Model Has a Six-month Shelf Life Now</a></h3>
+            <div class="si-by">Words by <b>Every.to</b></div>
+            <p class="si-sum">Every’s Context Window newsletter argues that every frontier model now has a six-month shelf life before the next release makes it obsolete. The same issue, per the preview, covers “the shoggoth strategy for generalists”, moving a website off Webflow with Claude, and what the Every team could not stop talking about this week. Only the preview was fetched, so the argument itself is not described here. The first fresh independent article in three days.</p>
+            <div class="si-more"><a href="https://every.to/context-window/every-model-has-a-six-month-shelf-life-now">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://scsp222.substack.com/p/turning-americas-ai-lead-into-industrial">Turning America’s AI Lead into Industrial Power</a></h3>
+            <div class="si-by">Words by <b>SCSP</b></div>
+            <p class="si-sum">The Special Competitive Studies Project (SCSP) shares takeaways from its AI+ Robotics Summit on turning the United States’ AI lead into industrial power. Only the one-line summary was fetched, so the specific takeaways are not described here. It rhymes with today’s a16z and Sequoia videos on factories, mines and energy: the AI-and-physical-industry theme is showing up across the pool.</p>
+            <div class="si-more"><a href="https://scsp222.substack.com/p/turning-americas-ai-lead-into-industrial">Read more &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YOUTUBE PICKS ──────────────────────────────────────────────────────── -->
+  <!-- Hero = top YouTube video (most relevant or highest-quality pick).         -->
+  <!-- Right grid = remaining YouTube videos. Repeat .si for each item.         -->
+  <section class="art-sec sec-youtube last" id="sec-anchor-youtube">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube Picks
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">9</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=st61aKW8P5A">$100M ARR Founder: The Next Big AI Opportunity</a></h3>
+          <div class="hero-by">Words by <b>Greg Isenberg</b></div>
+          <p class="hero-sum">Greg Isenberg talks with a founder whose company has reached $100 million in annual recurring revenue about what they see as the next big AI opportunity. Uploaded early this morning Beijing time; described from the title only, so the guest and the opportunity are not described here. Today’s hero: a fresh, on-topic upload from a channel Charlotte follows.</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=st61aKW8P5A">Watch <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 29, 01:40</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">Mark Cuban on Why AI Could Turn Solo Founders Into Trillionaires</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z’s Mark Cuban interview, carried over from yesterday under a new title: it was “Mark Cuban’s Plan to Make Healthcare Affordable” and is now about why AI could turn solo founders into trillionaires. The retitle moves it squarely on-topic. Described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=64vUl9k-IAQ">Crusoe CEO Chase Lochmiller: Turning Stranded Energy Into Intelligence</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital talks with Crusoe CEO Chase Lochmiller about turning stranded energy into intelligence, meaning AI compute sited where power is cheap or otherwise wasted. Uploaded this evening Beijing time; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=64vUl9k-IAQ">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 20:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=cRJ7CfaK1Vc">Why Founders Are Betting Big on Factories, Mines, and Energy</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">a16z on why founders are betting big on factories, mines and energy. Uploaded tonight Beijing time; whether AI is the driver is not stated in the title, so it is not described here. Pairs with the Crusoe interview and SCSP’s industrial-power piece above.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=cRJ7CfaK1Vc">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 21:50</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/odrLBDG9o3U">Your cold email isn’t a sales pitch</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short arguing that a cold email is not a sales pitch. Uploaded early this morning Beijing time; a founder-sales item rather than an AI one, described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/odrLBDG9o3U">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 01:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">The Design Partner Trap</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short on the “design partner trap”, the startup pattern of building for a few early customers so closely that the product never generalizes. Carried over from yesterday; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2HZPSYxws50">Does your product need to be 10x better?</a></h3>
+            <div class="si-by">Words by <b>Lenny's Podcast</b></div>
+            <p class="si-sum">A Lenny’s Podcast short asking whether a product really needs to be 10x better than the incumbent. Carried over from yesterday; described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2HZPSYxws50">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ASEdkRI7YEM">What happens when you’re a serial entrepreneur</a></h3>
+            <div class="si-by">Words by <b>a16z</b></div>
+            <p class="si-sum">An a16z short on what happens when you are a serial entrepreneur. Uploaded this morning Beijing time; a general founder item, not AI-specific, described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ASEdkRI7YEM">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 03:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">European Defense Sovereignty Starts in the Factory: Stark’s Uwe Horstmann and Johannes Schaback</a></h3>
+            <div class="si-by">Words by <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital talks with Stark’s Uwe Horstmann and Johannes Schaback about European defense sovereignty starting in the factory. Carried over from yesterday; a defense-manufacturing item rather than an AI one, described from the title only.</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">Watch &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 20:00</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ CHINESE ══════════════════════════════════ -->
+<div class="panel" id="panel-cn">
+<div class="wrap">
+
+  <!-- ── 精选报道 ────────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-spotlight">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--blue)"></span>
+      精选报道
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">官方 4 · 独立新闻 2</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-lt">
+        <img class="hero-img" src="spotlight.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions">Anthropic 的 AI for Science 计划扩展到基金会与科研机构</a></h3>
+          <div class="hero-by">来源 <b>Anthropic</b></div>
+          <p class="hero-sum">Anthropic 扩大其 AI for Science 计划，列出了来自世界各地的 20 家科学基金会、研究机构和研究团队作为合作伙伴。RSS 摘要只给出数量，未说明具体合作方、支持形式（额度、模型访问还是资金）以及覆盖的学科，故不在此描述。这是今日唯一的 Anthropic 帖子，置顶是因为它是唯一一条关于把模型用于科研、而非关于分发渠道的官方动态。</p>
+          <div class="hero-more"><a href="https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions">阅读 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 28, 2026</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/openai-servicenow-partnership-expansion">OpenAI 与 ServiceNow 扩大合作，覆盖企业工作流</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 与 ServiceNow 双向扩大合作：OpenAI 模型和智能体进入 ServiceNow，ServiceNow 的工作流则进入 ChatGPT 和 Codex。RSS 未给出时间表、定价和先上线哪些工作流。这是三天内第三笔企业分发协议，此前有 Anthropic 扩大与 GSA 的合作、OpenAI 扩大与 Oracle 的合作；两家实验室都在借助已经驻扎在大企业里的软件厂商卖产品。</p>
+            <div class="si-more"><a href="https://openai.com/index/openai-servicenow-partnership-expansion">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/the-future-of-the-firm">企业的未来</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">OpenAI 的一篇随笔，按 RSS 的一句话摘要，探讨 AI 如何进入组织架构图：“在我们之下、之旁、之间”，即作为员工之下的一层、作为同事、作为团队之间的连接组织。这是 OpenAI 少见的既非产品也非客户案例的帖子；作者和论述细节未抓取到，故不在此描述。</p>
+            <div class="si-more"><a href="https://openai.com/index/the-future-of-the-firm">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://openai.com/index/legora">Legora 正在打造法律工作的智能体操作系统</a></h3>
+            <div class="si-by">来源 <b>OpenAI</b></div>
+            <p class="si-sum">客户案例，昨日已收录，今日 URL 改短后再次出现：法律科技公司 Legora 用 OpenAI 模型、ChatGPT 和 Codex 加速法律工作流、扩大合同分析范围，让律师腾出精力做更高价值的工作。“智能体操作系统”是 Legora 自己的说法；RSS 未给出使用数据。</p>
+            <div class="si-more"><a href="https://openai.com/index/legora">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://every.to/context-window/every-model-has-a-six-month-shelf-life-now">现在每个模型的保质期只有六个月</a></h3>
+            <div class="si-by">来源 <b>Every.to</b></div>
+            <p class="si-sum">Every 的 Context Window 通讯提出，现在每个前沿模型的保质期只有六个月，下一次发布就会让它过时。据预览，同期还谈到“通才的修格斯策略”、用 Claude 把网站从 Webflow 迁走，以及 Every 团队本周反复讨论的话题。抓取仅含预览文字，论证本身不在此描述。这是三天来第一篇新出现的独立文章。</p>
+            <div class="si-more"><a href="https://every.to/context-window/every-model-has-a-six-month-shelf-life-now">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 2026</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://scsp222.substack.com/p/turning-americas-ai-lead-into-industrial">把美国的 AI 领先转化为工业实力</a></h3>
+            <div class="si-by">来源 <b>SCSP</b></div>
+            <p class="si-sum">特别竞争研究项目（SCSP）分享其 AI+ 机器人峰会的要点，主题是把美国的 AI 领先转化为工业实力。抓取仅含一句话摘要，具体要点不在此描述。它与今日 a16z 和 Sequoia 关于工厂、矿山和能源的视频互相呼应：AI 与实体工业的主题正同时出现在多个源里。</p>
+            <div class="si-more"><a href="https://scsp222.substack.com/p/turning-americas-ai-lead-into-industrial">阅读 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 2026</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── YouTube 精选 ─────────────────────────────────────────────────────────── -->
+  <section class="art-sec sec-youtube last">
+    <div class="sec">
+      <span class="sec-dot" style="background:var(--gold-dark)"></span>
+      YouTube 精选
+      <span class="sec-rule"></span>
+      <span style="font-size:10px">9 条</span>
+    </div>
+    <div class="spot">
+
+      <div class="spot-hero h-dk">
+        <img class="hero-img" src="youtubepicks.jpg" alt="">
+        <div class="hero-cap">
+          <h3 class="hero-t"><a href="https://www.youtube.com/watch?v=st61aKW8P5A">1 亿美元 ARR 创始人：下一个 AI 大机会</a></h3>
+          <div class="hero-by">来源 <b>Greg Isenberg</b></div>
+          <p class="hero-sum">Greg Isenberg 对谈一位公司年经常性收入达 1 亿美元的创始人，聊他眼中下一个 AI 大机会。北京时间今日凌晨上传；仅依据标题描述，嘉宾是谁、机会是什么不在此描述。今日头条：来自 Charlotte 关注频道的新鲜、切题的上传。</p>
+          <div class="hero-more"><a href="https://www.youtube.com/watch?v=st61aKW8P5A">观看 <span>&rarr;</span></a></div>
+        </div>
+        <div class="hero-foot"><span class="hero-tag-cell">Oct 29, 01:40</span><span class="si-fill"></span></div>
+      </div>
+
+      <div class="spot-r">
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">Mark Cuban：为什么 AI 可能让单人创始人成为万亿富翁</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 的 Mark Cuban 访谈，昨日已收录，今日改了标题：原为“Mark Cuban 让医疗变得可负担的计划”，现为“为什么 AI 可能让单人创始人成为万亿富翁”。改题后完全切题。仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=5UWDUD6qaM4">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 22:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=64vUl9k-IAQ">Crusoe CEO Chase Lochmiller：把搁浅能源转化为智能</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 对谈 Crusoe CEO Chase Lochmiller，谈把“搁浅能源”转化为智能，即把 AI 算力建在电力廉价或本会被浪费的地方。北京时间今晚上传；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=64vUl9k-IAQ">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 20:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=cRJ7CfaK1Vc">为什么创始人在重注工厂、矿山和能源</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 讲为什么创始人在重注工厂、矿山和能源。北京时间今晚上传；标题未说明 AI 是否是驱动因素，故不在此描述。可与上方 Crusoe 访谈和 SCSP 的工业实力文章对照。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=cRJ7CfaK1Vc">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 21:50</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/odrLBDG9o3U">你的陌生邮件不是推销</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频，主张陌生开发邮件不该写成推销。北京时间今日凌晨上传；属创始人销售话题而非 AI，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/odrLBDG9o3U">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 01:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">设计合作伙伴陷阱</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频，讲“设计合作伙伴陷阱”：创业公司为少数早期客户贴身定制，结果产品始终无法通用。昨日续收；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/nBu1HbmwX7w">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 18:30</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/2HZPSYxws50">你的产品需要好 10 倍吗？</a></h3>
+            <div class="si-by">来源 <b>Lenny's Podcast</b></div>
+            <p class="si-sum">Lenny’s Podcast 短视频，追问产品是否真的需要比现有方案好 10 倍。昨日续收；仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/2HZPSYxws50">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 05:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/shorts/ASEdkRI7YEM">连续创业者会经历什么</a></h3>
+            <div class="si-by">来源 <b>a16z</b></div>
+            <p class="si-sum">a16z 短视频，讲连续创业者会经历什么。北京时间今日早上上传；属泛创业话题，与 AI 无直接关系，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/shorts/ASEdkRI7YEM">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 29, 03:00</span><span class="si-fill"></span></div>
+        </div>
+        <div class="si">
+          <div class="si-body">
+            <h3 class="si-title"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">欧洲国防自主从工厂开始：Stark 的 Uwe Horstmann 与 Johannes Schaback</a></h3>
+            <div class="si-by">来源 <b>Sequoia Capital</b></div>
+            <p class="si-sum">Sequoia Capital 对谈 Stark 的 Uwe Horstmann 和 Johannes Schaback，谈欧洲国防自主要从工厂做起。昨日续收；属国防制造而非 AI 内容，仅依据标题描述。</p>
+            <div class="si-more"><a href="https://www.youtube.com/watch?v=qhIabMKHJlA">观看 &rarr;</a></div>
+          </div>
+          <div class="si-foot"><span class="si-tag">Oct 28, 20:00</span><span class="si-fill"></span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="fi">
+      <span class="f-brand">AI Daily</span>
+      <span class="f-credit"><a href="./" style="color:inherit">往期存档 / Archive</a> · October 29, 2026 · Spotlight 4 + 2 · YouTube 9 · X.com 0 (fetch failed)</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Language switch */
+  function sw(lang) {
+    ['en','cn'].forEach(l => {
+      document.getElementById('tab-' + l).classList.toggle('on', l === lang);
+      document.getElementById('panel-' + l).classList.toggle('on', l === lang);
+    });
+    updateActiveNav();
+  }
+
+  /* Highlight active nav link based on scroll position */
+  // 'markets' is dropped from this list on days with no market posts (the
+  // section and its nav link are removed together).
+  const SECS = ['spotlight', 'youtube'];
+  function updateActiveNav() {
+    const headerH = document.querySelector('.site-header').offsetHeight + 20;
+    let active = SECS[0];
+    SECS.forEach(id => {
+      const el = document.getElementById('sec-anchor-' + id);
+      if (el && el.getBoundingClientRect().top <= headerH) active = id;
+    });
+    SECS.forEach(id => {
+      document.getElementById('sec-' + id).classList.toggle('on', id === active);
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+</script>
+</body>
+</html>
